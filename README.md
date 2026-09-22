@@ -11,7 +11,7 @@ Static site, Vite + TypeScript, no runtime dependencies, dark by default with a 
 | `src/theme.ts` | Dark for everyone unless the visitor toggled light here (saved in localStorage). The inline script in `index.html` applies it before first paint. |
 | `src/render/*.ts` | Header, tiles, projects, footer as HTML strings. |
 | `src/styles/*.css` | `tokens.css` holds both themes and the accent hues; the rest is one file per component. |
-| `public/resume.pdf` | **Placeholder.** Replace with the real PDF; the path is `profile.resumeUrl` in config. |
+| `public/resume.pdf` | The resume the Resume button opens (`profile.resumeUrl` in config). |
 | `scripts/deploy.ps1` | Run by the self-hosted runner on push to `main`: pull into `C:\Apps\nish.software`, `npm ci`, build `dist/`. |
 | `docs/HOSTING.md` | How this fits nishant/hosting, and the one-time setup steps on the PC. |
 
