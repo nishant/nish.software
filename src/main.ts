@@ -36,7 +36,8 @@ toggle?.addEventListener('click', () => {
 });
 syncToggleLabel();
 
-// Unreachable tiles: explain instead of navigating into a timeout ----------------
+// Tiles the probe found unreachable: explain instead of navigating into a timeout.
+// Tiles that could not be probed (tailnet hosts in Chrome) navigate normally.
 const toast = app.querySelector<HTMLDivElement>('.toast')!;
 let toastTimer: number | undefined;
 const showToast = (html: string): void => {

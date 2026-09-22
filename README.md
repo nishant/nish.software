@@ -7,7 +7,7 @@ Static site, Vite + TypeScript, no runtime dependencies, dark by default with a 
 |---|---|
 | `src/config.ts` | **Everything on the page.** Tiles, links, tagline. Edit this to change content. |
 | `src/types.ts` | The shapes `config.ts` must follow. |
-| `src/probe.ts` | On load, pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. Tailnet-only apps are also flagged in config, so they always carry a lock badge. |
+| `src/probe.ts` | On load, pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. Tailnet-only apps carry a lock badge and are pinged only when the browser allows it without a prompt (Chrome gates 100.x addresses behind a "local network access" permission); otherwise they show no dot and simply open on click. |
 | `src/theme.ts` | Dark for everyone unless the visitor toggled light here (saved in localStorage). The inline script in `index.html` applies it before first paint. |
 | `src/render/*.ts` | Header, tiles, footer as HTML strings. |
 | `src/styles/*.css` | `tokens.css` holds both themes and the accent hues; the rest is one file per component. |

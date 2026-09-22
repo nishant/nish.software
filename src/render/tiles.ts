@@ -10,7 +10,9 @@ const STATUS_LABEL: Record<ReachState, string> = {
   soon: 'Coming soon',
 };
 
-const initialState = (t: Tile): ReachState => (t.soon ? 'soon' : t.probe ? 'probing' : 'idle');
+// Tailnet tiles start without a dot: probe.ts decides whether pinging them is possible.
+const initialState = (t: Tile): ReachState =>
+  t.soon ? 'soon' : t.probe && !t.tailnetOnly ? 'probing' : 'idle';
 
 export const renderTiles = (tiles: Tile[], tailnetNote: string): string => `
   <section class="section" id="apps" aria-labelledby="apps-heading">
