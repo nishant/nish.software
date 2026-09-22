@@ -1,0 +1,122 @@
+.page,
+.site-header,
+.site-footer {
+  width: min(100% - 2 * var(--gutter), var(--page-max));
+  margin-inline: auto;
+}
+
+.page {
+  display: grid;
+  gap: clamp(48px, 8vw, 88px);
+  padding-bottom: clamp(48px, 8vw, 88px);
+}
+
+.section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.section__title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.section__hint {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+/* Shared small pieces ------------------------------------------------------------ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.badge--lock {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+.badge--muted {
+  color: var(--text-3);
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.status__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--off);
+  flex: none;
+  transition: background-color var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
+}
+.status__dot--ok {
+  background: var(--ok);
+}
+.status__dot--off {
+  background: var(--off);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  background: var(--surface);
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(100% - 2 * var(--gutter), 520px);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-hover);
+  font-size: 14px;
+  color: var(--text-2);
+  z-index: 20;
+  animation: rise 240ms var(--ease-out) both;
+}
+.toast strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.toast a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

@@ -1,0 +1,20 @@
+{
+  "name": "nish.software",
+  "private": true,
+  "version": "1.0.0",
+  "description": "nish.software - app hub, projects and resume. Static site, no runtime dependencies.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}

@@ -1,0 +1,83 @@
+/* Design tokens. Dark is the default; light overrides below. Accents are defined per
+   theme so they hold contrast on both backgrounds. */
+:root {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+
+  --page-max: 1120px;
+  --gutter: 16px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-med: 320ms;
+
+  /* Dark */
+  --bg: #0a0b0f;
+  --bg-elev: #111218;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text: #ececf1;
+  --text-2: #a5a7b4;
+  --text-3: #6b6e7c;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 30px -12px rgba(0, 0, 0, 0.7);
+  --shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 48px -20px rgba(0, 0, 0, 0.8);
+  --glow-alpha: 0.28;
+  --noise-alpha: 0.05;
+
+  --ok: #34d399;
+  --off: #6b6e7c;
+  --wait: #fbbf24;
+
+  --emerald: #34d399;
+  --indigo: #8b93ff;
+  --amber: #fbbf24;
+  --lime: #b4e94a;
+  --rose: #fb7185;
+  --sky: #38bdf8;
+
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --bg: #f7f6f3;
+  --bg-elev: #ffffff;
+  --surface: rgba(255, 255, 255, 0.7);
+  --surface-hover: rgba(255, 255, 255, 1);
+  --border: rgba(20, 20, 30, 0.09);
+  --border-strong: rgba(20, 20, 30, 0.18);
+  --text: #17171c;
+  --text-2: #5b5d68;
+  --text-3: #8a8c98;
+  --shadow: 0 1px 2px rgba(20, 20, 30, 0.04), 0 10px 30px -14px rgba(20, 20, 30, 0.18);
+  --shadow-hover: 0 1px 2px rgba(20, 20, 30, 0.05), 0 24px 48px -20px rgba(20, 20, 30, 0.28);
+  --glow-alpha: 0.18;
+  --noise-alpha: 0.035;
+
+  --ok: #059669;
+  --off: #9a9ca8;
+  --wait: #d97706;
+
+  --emerald: #059669;
+  --indigo: #4f46e5;
+  --amber: #d97706;
+  --lime: #65a30d;
+  --rose: #e11d48;
+  --sky: #0284c7;
+
+  color-scheme: light;
+}
+
+/* Map a tile's accent name to --accent so component CSS never cares which one it is. */
+[data-accent='emerald'] { --accent: var(--emerald); }
+[data-accent='indigo'] { --accent: var(--indigo); }
+[data-accent='amber'] { --accent: var(--amber); }
+[data-accent='lime'] { --accent: var(--lime); }
+[data-accent='rose'] { --accent: var(--rose); }
+[data-accent='sky'] { --accent: var(--sky); }

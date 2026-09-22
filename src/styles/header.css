@@ -1,0 +1,117 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: max(18px, env(safe-area-inset-top));
+  min-height: 56px;
+}
+
+.wordmark {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  padding: 6px 0;
+}
+
+.theme-toggle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  display: grid;
+  place-items: center;
+  transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
+}
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.theme-toggle__icon {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out);
+}
+.theme-toggle__icon .icon {
+  width: 18px;
+  height: 18px;
+}
+/* Dark shows the sun (what you would switch to); light shows the moon. */
+.theme-toggle__icon--moon {
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.6);
+}
+:root[data-theme='light'] .theme-toggle__icon--sun {
+  opacity: 0;
+  transform: rotate(60deg) scale(0.6);
+}
+:root[data-theme='light'] .theme-toggle__icon--moon {
+  opacity: 1;
+  transform: none;
+}
+
+.hero {
+  padding: clamp(40px, 9vw, 96px) 0 clamp(36px, 6vw, 64px);
+  display: grid;
+  gap: 22px;
+  max-width: 720px;
+}
+
+.hero__tagline {
+  --i: 0;
+  font-size: clamp(26px, 4.6vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.hero__links {
+  --i: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px 0 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+}
+.pill .icon {
+  width: 17px;
+  height: 17px;
+}
+.pill:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.pill:active {
+  transform: translateY(0);
+}
+.pill--accent {
+  --accent: var(--indigo);
+  color: var(--text);
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
+}
+.pill--accent:hover {
+  background: color-mix(in oklab, var(--accent) 22%, transparent);
+  border-color: color-mix(in oklab, var(--accent) 70%, var(--border));
+}
