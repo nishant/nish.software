@@ -1,12 +1,13 @@
 /**
- * Everything on the page lives here. Edit this file to add a tile, a project or a
- * link; nothing else needs to change. Types are in ./types.ts.
+ * Everything on the page lives here. Edit this file to add a tile or a link; nothing
+ * else needs to change. Types are in ./types.ts.
  */
-import type { Link, Profile, Project, Tile } from './types';
+import type { Link, Profile, Tile } from './types';
 
 export const profile: Profile = {
   name: 'Nish',
-  tagline: 'Software engineer. This is where the things I build for myself live.',
+  fullName: 'Nishant Arora',
+  tagline: 'Software engineer.',
   resumeUrl: '/resume.pdf',
 };
 
@@ -20,7 +21,8 @@ export const tiles: Tile[] = [
   {
     id: 'trading',
     name: 'Trading',
-    blurb: 'Options analyzer: a watchlist, transparent multi-factor scoring, and a paper ledger.',
+    blurb:
+      'Watchlist-driven options analysis with every score factor shown, self-collected IV history, and an installable PWA.',
     href: 'https://trading.nish.software',
     icon: 'trading',
     accent: 'emerald',
@@ -40,7 +42,8 @@ export const tiles: Tile[] = [
   {
     id: 'jobs',
     name: 'Jobs',
-    blurb: 'A job board that builds itself: sweeps 235+ company boards daily and scores every posting.',
+    blurb:
+      'A job board that builds itself: sweeps 13 sources and 235+ career pages daily, dedupes, and has Claude read each posting against a resume.',
     href: 'https://jobs.nish.software',
     icon: 'jobs',
     accent: 'amber',
@@ -57,33 +60,19 @@ export const tiles: Tile[] = [
     tailnetOnly: false,
     probe: true,
   },
-];
-
-export const projects: Project[] = [
   {
-    name: 'Options Trading Analyzer',
-    blurb:
-      'Watchlist-driven options analysis with every score factor shown, self-collected IV history, and an installable PWA. 900+ tests.',
-    stack: ['TypeScript', 'React', 'Fastify', 'SQLite', 'Turborepo'],
-    source: 'private',
-    href: 'https://trading.nish.software',
-  },
-  {
-    name: 'Job Apps',
-    blurb:
-      'An AI job-hunting copilot for the family. Sweeps 13 sources and 235+ career pages, dedupes, then has Claude read each posting against a resume.',
-    stack: ['TypeScript', 'React 19', 'Hono', 'PostgreSQL', 'Claude'],
-    source: 'private',
-    href: 'https://jobs.nish.software',
-  },
-  {
+    id: 'nishboard',
     name: 'Nishboard',
     blurb:
-      'Ambient desktop dashboard for a second monitor: weather, Spotify, markets, machine vitals, and who is live on Twitch.',
-    stack: ['Electron', 'React', 'Vite', 'Fastify'],
-    source: 'https://github.com/nishant/nishboard',
+      'Ambient dashboard for a second monitor: weather, Spotify, markets, machine vitals, and who is live on Twitch.',
+    href: 'https://nishboard.nish.software',
+    icon: 'monitor',
+    accent: 'sky',
+    tailnetOnly: false,
+    probe: false,
+    soon: true,
   },
 ];
 
-/** Shown on tailnet-only tiles and in the footer legend. */
+/** Tooltip on the lock badge, and the explanation when a tailnet-only tile is tapped. */
 export const tailnetNote = 'Only reachable on my tailnet';

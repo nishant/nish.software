@@ -73,27 +73,6 @@
   flex: none;
   transition: background-color var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
 }
-.status__dot--ok {
-  background: var(--ok);
-}
-.status__dot--off {
-  background: var(--off);
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  color: var(--text-2);
-  background: var(--surface);
-}
 
 .toast {
   position: fixed;

@@ -3,16 +3,14 @@ import './styles/base.css';
 import './styles/layout.css';
 import './styles/header.css';
 import './styles/tiles.css';
-import './styles/projects.css';
 import './styles/footer.css';
 
-import { links, profile, projects, tailnetNote, tiles } from './config';
+import { links, profile, tailnetNote, tiles } from './config';
 import { probeAll } from './probe';
 import { renderFooter } from './render/footer';
 import { renderHeader } from './render/header';
-import { renderProjects } from './render/projects';
 import { renderTiles, setTileState } from './render/tiles';
-import { currentTheme, followSystemTheme, toggleTheme } from './theme';
+import { currentTheme, toggleTheme } from './theme';
 import { hostOf } from './util';
 
 const app = document.querySelector<HTMLDivElement>('#app');
@@ -22,9 +20,8 @@ app.innerHTML = `
   ${renderHeader(profile, links)}
   <main class="page">
     ${renderTiles(tiles, tailnetNote)}
-    ${renderProjects(projects)}
   </main>
-  ${renderFooter(profile, links, tailnetNote)}
+  ${renderFooter(profile, links)}
   <div class="toast" role="status" aria-live="polite" hidden></div>
 `;
 
@@ -38,7 +35,6 @@ toggle?.addEventListener('click', () => {
   syncToggleLabel();
 });
 syncToggleLabel();
-followSystemTheme();
 
 // Unreachable tiles: explain instead of navigating into a timeout ----------------
 const toast = app.querySelector<HTMLDivElement>('.toast')!;
@@ -51,7 +47,7 @@ const showToast = (html: string): void => {
 };
 
 app.addEventListener('click', (e) => {
-  const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-tile-link]');
+  const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-tile-link]');
   if (!link) return;
   const tileEl = link.closest<HTMLElement>('.tile');
   if (tileEl?.dataset.reach !== 'unreachable') return;

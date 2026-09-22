@@ -5,10 +5,10 @@ Static site, Vite + TypeScript, no runtime dependencies, dark by default with a 
 
 | Path | What |
 |---|---|
-| `src/config.ts` | **Everything on the page.** Tiles, projects, links, tagline. Edit this to change content. |
+| `src/config.ts` | **Everything on the page.** Tiles, links, tagline. Edit this to change content. |
 | `src/types.ts` | The shapes `config.ts` must follow. |
 | `src/probe.ts` | On load, pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. Tailnet-only apps are also flagged in config, so they always carry a lock badge. |
-| `src/theme.ts` | Dark/light: saved choice, else the OS preference, else dark. The inline script in `index.html` applies it before first paint. |
+| `src/theme.ts` | Dark for everyone unless the visitor toggled light here (saved in localStorage). The inline script in `index.html` applies it before first paint. |
 | `src/render/*.ts` | Header, tiles, projects, footer as HTML strings. |
 | `src/styles/*.css` | `tokens.css` holds both themes and the accent hues; the rest is one file per component. |
 | `public/resume.pdf` | **Placeholder.** Replace with the real PDF; the path is `profile.resumeUrl` in config. |
@@ -39,6 +39,7 @@ Append to `tiles` in `src/config.ts`:
   accent: 'rose',          // emerald | indigo | amber | lime | rose | sky
   tailnetOnly: false,      // true = lock badge + "only reachable on my tailnet"
   probe: true,             // ping on load and grey out if it does not answer
+  // soon: true,           // not live yet: muted "Coming soon" tile, not a link (set probe: false)
 }
 ```
 

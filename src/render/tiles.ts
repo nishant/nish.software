@@ -7,25 +7,35 @@ const STATUS_LABEL: Record<ReachState, string> = {
   probing: 'Checking',
   ok: 'Online',
   unreachable: 'Not reachable from here',
+  soon: 'Coming soon',
 };
+
+const initialState = (t: Tile): ReachState => (t.soon ? 'soon' : t.probe ? 'probing' : 'idle');
 
 export const renderTiles = (tiles: Tile[], tailnetNote: string): string => `
   <section class="section" id="apps" aria-labelledby="apps-heading">
     <div class="section__head">
       <h2 class="section__title" id="apps-heading">Apps</h2>
-      <p class="section__hint">${icon('lock', 'icon icon--inline')} ${esc(tailnetNote)}</p>
     </div>
     <ul class="tiles">
       ${tiles.map((t, i) => renderTile(t, i, tailnetNote)).join('')}
     </ul>
   </section>`;
 
-const renderTile = (t: Tile, i: number, tailnetNote: string): string => `
-  <li class="tile" data-tile="${esc(t.id)}" data-accent="${t.accent}" data-reach="${t.probe ? 'probing' : 'idle'}" ${t.tailnetOnly ? 'data-tailnet' : ''} style="--i:${i}">
-    <a class="tile__link" href="${esc(t.href)}" data-tile-link>
+const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
+  const state = initialState(t);
+  // A tile that is not live yet is not a link; everything else navigates.
+  const open = t.soon
+    ? `<div class="tile__link" data-tile-link aria-disabled="true">`
+    : `<a class="tile__link" href="${esc(t.href)}" data-tile-link>`;
+  const close = t.soon ? '</div>' : '</a>';
+  return `
+  <li class="tile" data-tile="${esc(t.id)}" data-accent="${t.accent}" data-reach="${state}" ${t.tailnetOnly ? 'data-tailnet' : ''} style="--i:${i}">
+    ${open}
       <div class="tile__top">
         <span class="tile__icon">${icon(t.icon)}</span>
         ${t.tailnetOnly ? `<span class="badge badge--lock" title="${esc(tailnetNote)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span></span>` : ''}
+        ${t.soon ? `<span class="badge badge--muted">Soon</span>` : ''}
         <span class="tile__arrow">${icon('arrow')}</span>
       </div>
       <h3 class="tile__name">${esc(t.name)}</h3>
@@ -34,12 +44,12 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => `
         <span class="tile__host">${esc(hostOf(t.href))}</span>
         <span class="status" data-status>
           <span class="status__dot"></span>
-          <span class="status__label">${STATUS_LABEL[t.probe ? 'probing' : 'idle']}</span>
+          <span class="status__label">${STATUS_LABEL[state]}</span>
         </span>
       </div>
-      ${t.tailnetOnly ? `<p class="tile__note">${esc(tailnetNote)}</p>` : ''}
-    </a>
+    ${close}
   </li>`;
+};
 
 /** Reflects a probe result on the tile: the data attribute drives the CSS, the label the text. */
 export const setTileState = (root: ParentNode, tile: Tile, state: ReachState): void => {
@@ -48,9 +58,6 @@ export const setTileState = (root: ParentNode, tile: Tile, state: ReachState): v
   el.dataset.reach = state;
   const label = el.querySelector<HTMLElement>('.status__label');
   if (label) {
-    label.textContent =
-      state === 'unreachable' && tile.tailnetOnly ? 'Tailnet only' : STATUS_LABEL[state];
+    label.textContent = state === 'unreachable' && tile.tailnetOnly ? 'Tailnet only' : STATUS_LABEL[state];
   }
-  const link = el.querySelector<HTMLAnchorElement>('[data-tile-link]');
-  if (link) link.setAttribute('aria-describedby', state === 'unreachable' ? 'reach-legend' : '');
 };

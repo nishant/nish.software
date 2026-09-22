@@ -6,6 +6,7 @@ export type IconName =
   | 'startpage'
   | 'jobs'
   | 'minecraft'
+  | 'monitor'
   | 'github'
   | 'linkedin'
   | 'file'
@@ -18,6 +19,8 @@ export type IconName =
 export interface Profile {
   /** Wordmark text. */
   name: string;
+  /** Full name, for the copyright line. */
+  fullName: string;
   /** One line under the wordmark. */
   tagline: string;
   /** Path or URL to the resume PDF. */
@@ -47,17 +50,9 @@ export interface Tile {
   tailnetOnly: boolean;
   /** Ping the URL on load and reflect whether it answered. */
   probe: boolean;
+  /** Not live yet: shown muted with a "Coming soon" label, not a link. Set probe: false. */
+  soon?: boolean;
 }
 
-export interface Project {
-  name: string;
-  blurb: string;
-  stack: string[];
-  /** A GitHub URL, or 'private' when the code is not public. */
-  source: string | 'private';
-  /** Live app to open, if any. */
-  href?: string;
-}
-
-/** Probe outcome for a tile. `idle` = never probed (probe: false). */
-export type ReachState = 'idle' | 'probing' | 'ok' | 'unreachable';
+/** Probe outcome for a tile. `idle` = never probed (probe: false); `soon` = not live yet. */
+export type ReachState = 'idle' | 'probing' | 'ok' | 'unreachable' | 'soon';
