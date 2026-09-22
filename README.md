@@ -9,7 +9,7 @@ Static site, Vite + TypeScript, no runtime dependencies, dark by default with a 
 | `src/types.ts` | The shapes `config.ts` must follow. |
 | `src/probe.ts` | On load, pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. Tailnet-only apps are also flagged in config, so they always carry a lock badge. |
 | `src/theme.ts` | Dark for everyone unless the visitor toggled light here (saved in localStorage). The inline script in `index.html` applies it before first paint. |
-| `src/render/*.ts` | Header, tiles, projects, footer as HTML strings. |
+| `src/render/*.ts` | Header, tiles, footer as HTML strings. |
 | `src/styles/*.css` | `tokens.css` holds both themes and the accent hues; the rest is one file per component. |
 | `public/resume.pdf` | The resume the Resume button opens (`profile.resumeUrl` in config). |
 | `scripts/deploy.ps1` | Run by the self-hosted runner on push to `main`: pull into `C:\Apps\nish.software`, `npm ci`, build `dist/`. |
