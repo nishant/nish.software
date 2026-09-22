@@ -7,7 +7,7 @@ import type { Link, Profile, Tile } from './types';
 export const profile: Profile = {
   name: 'Nish',
   fullName: 'Nishant Arora',
-  tagline: 'Software engineer.',
+  tagline: 'Software hub',
   resumeUrl: '/resume.pdf',
 };
 
