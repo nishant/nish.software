@@ -10,7 +10,7 @@ How this site and the startpage fit the conventions in
 |---|---|---|
 | `nish.software` | this repo, `C:\Apps\nish.software\dist` | Caddy `file_server` on `127.0.0.1:8080`, via the Cloudflare tunnel |
 | `www.nish.software` | Caddy | permanent redirect to `https://nish.software` |
-| `startpage.nish.software` | `nishant/nishant.github.io`, `C:\Apps\startpage` | Node on `127.0.0.1:8800` (task `Startpage`), Caddy `reverse_proxy` |
+| `start.nish.software` | `nishant/nishant.github.io`, `C:\Apps\startpage` | Node on `127.0.0.1:8800` (task `Startpage`), Caddy `reverse_proxy` |
 
 Both repos deploy themselves on push, the job-apps way: a `check` job on GitHub, then a
 `deploy` job on a self-hosted runner on the PC that runs the repo's `scripts\deploy.ps1`
@@ -71,18 +71,18 @@ task is missing) from `scripts\Startpage.task.xml`.
 
 Push the hosting commit that adds the three Caddy blocks and `sites.yaml` entries. Then
 `powershell -NoProfile -ExecutionPolicy Bypass -File C:\Code\hosting\scripts\status.ps1`
-should list `nish.software`, `www.nish.software` and `startpage.nish.software` as OK.
+should list `nish.software`, `www.nish.software` and `start.nish.software` as OK.
 
 ### 6. Cloudflare (dashboard, by hand)
 
 - Tunnel `jobapps`: add public hostname routes for `nish.software` and `www.nish.software`
   to `http://127.0.0.1:8080`. The existing wildcard `*.nish.software` route already covers
-  `startpage.nish.software`, but the apex and `www` are not matched by a wildcard.
+  `start.nish.software`, but the apex and `www` are not matched by a wildcard.
 
 ### 7. Google sign-in on the startpage
 
 Google Cloud Console, the OAuth web client used by the startpage (client id in
-`src/main.ts` of nishant.github.io): add `https://startpage.nish.software` under Authorized
+`src/main.ts` of nishant.github.io): add `https://start.nish.software` under Authorized
 JavaScript origins. Until then the "Sign in with Google" button on the new host fails with
 an origin error; everything else on the page works.
 
@@ -94,7 +94,7 @@ Replace `public/resume.pdf` in this repo with the real one and push.
 
 ```powershell
 curl.exe -s -H "Host: nish.software" http://127.0.0.1:8080 | Select-String "<title>"
-curl.exe -s -H "Host: startpage.nish.software" http://127.0.0.1:8080/health
+curl.exe -s -H "Host: start.nish.software" http://127.0.0.1:8080/health
 gh run list --repo nishant/nish.software --limit 3
 gh run list --repo nishant/nishant.github.io --limit 3
 ```

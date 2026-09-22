@@ -33,7 +33,7 @@ export const tiles: Tile[] = [
     id: 'startpage',
     name: 'Startpage',
     blurb: 'The browser start page I open a hundred times a day. Links, notes, weather, mail.',
-    href: 'https://startpage.nish.software',
+    href: 'https://start.nish.software',
     icon: 'startpage',
     accent: 'indigo',
     tailnetOnly: false,
@@ -65,7 +65,7 @@ export const tiles: Tile[] = [
     name: 'Nishboard',
     blurb:
       'Ambient dashboard for a second monitor: weather, Spotify, markets, machine vitals, and who is live on Twitch.',
-    href: 'https://nishboard.nish.software',
+    href: 'https://dash.nish.software',
     icon: 'monitor',
     accent: 'sky',
     tailnetOnly: false,
