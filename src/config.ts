@@ -53,7 +53,8 @@ export const tiles: Tile[] = [
   {
     id: 'minecraft',
     name: 'Minecraft',
-    blurb: 'Bedrock enchantment loadouts for the server crew, on one page.',
+    blurb:
+      'Guides for our Bedrock realm: houses, monuments and survival farms built layer by layer in 3D, reference charts, and our own add-on packs.',
     href: 'https://mc.nish.software',
     icon: 'minecraft',
     accent: 'lime',
