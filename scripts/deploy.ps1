@@ -2,17 +2,17 @@
 .SYNOPSIS
   Deploys the pushed commit into the live checkout and builds the static site into
   <Target>\dist, which Caddy serves as nish.software (see nishant/hosting Caddyfile).
-  Run by the GitHub Actions self-hosted runner (as SYSTEM) on every push to main;
+  Run by the GitHub Actions self-hosted runner (as SYSTEM) on every push to master;
   can also be run by hand from an elevated shell. There is no process to restart:
   Caddy reads the folder on every request.
 .EXAMPLE
-  .\scripts\deploy.ps1                      # C:\Apps\nish.software from origin/main
+  .\scripts\deploy.ps1                      # C:\Apps\nish.software from origin/master
 #>
 [CmdletBinding()]
 param(
   [string]$Target = 'C:\Apps\nish.software',
   [string]$Repo = 'https://github.com/nishant/nish.software.git',
-  [string]$Branch = 'main',
+  [string]$Branch = 'master',
   # Where to fetch the new commit from. 'origin' (GitHub) works for this public repo;
   # the Actions workflow passes its own checkout so every deploy behaves the same way
   # as the private repos' deploys.

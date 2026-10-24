@@ -12,7 +12,7 @@ Static site, Vite + TypeScript, no runtime dependencies, dark by default with a 
 | `src/render/*.ts` | Header, tiles, footer as HTML strings. |
 | `src/styles/*.css` | `tokens.css` holds both themes and the accent hues; the rest is one file per component. |
 | `public/resume.pdf` | The resume the Resume button opens (`profile.resumeUrl` in config). |
-| `scripts/deploy.ps1` | Run by the self-hosted runner on push to `main`: pull into `C:\Apps\nish.software`, `npm ci`, build `dist/`. |
+| `scripts/deploy.ps1` | Run by the self-hosted runner on push to `master`: pull into `C:\Apps\nish.software`, `npm ci`, build `dist/`. |
 | `docs/HOSTING.md` | How this fits nishant/hosting, and the one-time setup steps on the PC. |
 
 ## Develop
@@ -47,6 +47,6 @@ Then add the site to nishant/hosting (`sites.yaml` + Caddyfile) so the host exis
 
 ## Deploy
 
-Push to `main`. The workflow typechecks and builds on GitHub, then the runner on the
+Push to `master`. The workflow typechecks and builds on GitHub, then the runner on the
 hosting PC runs `scripts\deploy.ps1`, and Caddy serves `C:\Apps\nish.software\dist`.
 First-time setup is in [docs/HOSTING.md](docs/HOSTING.md).

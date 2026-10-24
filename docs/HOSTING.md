@@ -49,7 +49,7 @@ Get-Service actions.runner.*    # expect four: hosting, job-apps, nish-software,
 
 ### 3. First deploys
 
-Merge/push `main` in nish.software and `master` in nishant.github.io (or run each repo's
+Merge/push `master` in nish.software and `master` in nishant.github.io (or run each repo's
 `deploy` workflow by hand: `gh workflow run deploy --repo nishant/nish.software`,
 `gh workflow run deploy --repo nishant/nishant.github.io`). The first startpage deploy
 warns that `server\.env` is missing and health-checks fine; weather answers 503 until step 4.
