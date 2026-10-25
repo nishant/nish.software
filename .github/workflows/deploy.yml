@@ -1,11 +1,11 @@
-# Push to main = deploy nish.software. `check` runs on GitHub's runners; `deploy` runs
+# Push to master = deploy nish.software. `check` runs on GitHub's runners; `deploy` runs
 # on the self-hosted runner installed on the hosting PC (labels: self-hosted, windows,
 # nish-software), which pulls into C:\Apps\nish.software and builds dist/ for Caddy.
 name: deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 concurrency:
