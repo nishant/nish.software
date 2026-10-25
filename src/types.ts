@@ -10,6 +10,7 @@ export type IconName =
   | 'monitor'
   | 'pulse'
   | 'chart'
+  | 'palette'
   | 'github'
   | 'linkedin'
   | 'file'
