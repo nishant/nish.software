@@ -28,11 +28,6 @@
   color: var(--nish-hi2);
 }
 
-.section__hint {
-  font-size: 13px;
-  color: var(--nish-hi3);
-}
-
 /* Shared small pieces ------------------------------------------------------------ */
 .badge {
   display: inline-flex;

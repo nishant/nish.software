@@ -16,10 +16,9 @@
   box-sizing: border-box;
 }
 
-/* @nish/ui's base paints the page background on <html>; body stays transparent so the
-   ambient glows below (fixed, behind body) show through. */
+/* @nish/ui's base already sets the background, text color, font and smoothing on <html>;
+   body stays transparent so the ambient glows below (fixed, behind body) show through. */
 html {
-  -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   transition: background-color var(--nish-dur-med) var(--nish-ease-out);
 }
@@ -27,13 +26,9 @@ html {
 body {
   margin: 0;
   min-height: 100dvh;
-  color: var(--nish-hi);
-  font-family: var(--nish-font-sans);
-  font-size: 16px;
+  font-size: var(--nish-text-base);
   line-height: 1.5;
   font-feature-settings: 'cv11', 'ss01', 'calt';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   transition: color var(--nish-dur-med) var(--nish-ease-out);
 }
@@ -87,10 +82,10 @@ body::after {
   cursor: pointer;
 }
 
+/* @nish/ui's focus ring (width and offset from its tokens), in the tile's hue inside a tile. */
 :focus-visible {
   outline: var(--nish-focus-width) solid var(--tile-hue, var(--nish-accent));
-  outline-offset: 3px;
-  border-radius: var(--nish-radius-sm);
+  outline-offset: var(--nish-focus-offset);
 }
 
 .icon {
@@ -98,32 +93,9 @@ body::after {
   height: 22px;
   flex: none;
 }
-.icon--sm {
-  width: 16px;
-  height: 16px;
-}
 .icon--xs {
   width: 13px;
   height: 13px;
-}
-.icon--inline {
-  width: 14px;
-  height: 14px;
-  vertical-align: -2px;
-}
-
-.skip-link {
-  position: absolute;
-  left: 16px;
-  top: -48px;
-  padding: 8px 12px;
-  background: var(--nish-elevated);
-  border: 1px solid var(--nish-line-strong);
-  border-radius: var(--nish-radius-sm);
-  z-index: 10;
-}
-.skip-link:focus {
-  top: 12px;
 }
 
 /* Entrance: things rise into place, staggered by --i. Off entirely for reduced motion. */
@@ -137,23 +109,16 @@ body::after {
     transform: none;
   }
 }
-.rise,
 .tile,
-.project,
 .hero > * {
   animation: rise 560ms var(--nish-ease-out) both;
   animation-delay: calc(var(--i, 0) * 45ms + 60ms);
 }
 
+/* @nish/ui's base shortens every animation for reduced motion; also drop the stagger. */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
+  .tile,
+  .hero > * {
     animation-delay: 0ms !important;
-    transition-duration: 0.01ms !important;
   }
 }
