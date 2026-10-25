@@ -73,6 +73,16 @@ export const tiles: Tile[] = [
     probe: true,
   },
   {
+    id: 'status',
+    name: 'Status',
+    blurb: 'Uptime and health for every nish.software site and the PC that runs them.',
+    href: 'https://status.nish.software',
+    icon: 'pulse',
+    accent: 'teal',
+    tailnetOnly: false,
+    probe: true,
+  },
+  {
     id: 'nishboard',
     name: 'Nishboard',
     blurb:

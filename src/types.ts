@@ -1,5 +1,5 @@
 /** One accent hue per tile; the CSS in styles/tokens.css defines each in both themes. */
-export type Accent = 'emerald' | 'indigo' | 'amber' | 'lime' | 'rose' | 'sky';
+export type Accent = 'emerald' | 'indigo' | 'amber' | 'lime' | 'rose' | 'sky' | 'teal';
 
 export type IconName =
   | 'trading'
@@ -8,6 +8,7 @@ export type IconName =
   | 'minecraft'
   | 'trips'
   | 'monitor'
+  | 'pulse'
   | 'github'
   | 'linkedin'
   | 'file'
