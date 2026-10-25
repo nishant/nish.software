@@ -1,5 +1,5 @@
-/** One accent hue per tile; the CSS in styles/tokens.css defines each in both themes. */
-export type Accent = 'emerald' | 'indigo' | 'amber' | 'lime' | 'rose' | 'sky';
+/** One accent hue per tile; styles/tokens.css maps each to its @nish/ui --nish-<hue>. */
+export type Accent = 'emerald' | 'indigo' | 'amber' | 'lime' | 'rose' | 'sky' | 'violet' | 'teal';
 
 export type IconName =
   | 'trading'
@@ -13,6 +13,7 @@ export type IconName =
   | 'lock'
   | 'sun'
   | 'moon'
+  | 'system'
   | 'arrow'
   | 'code';
 

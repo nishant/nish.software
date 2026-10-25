@@ -1,28 +1,68 @@
-export type Theme = 'dark' | 'light';
-
-const STORAGE_KEY = 'theme';
-const THEME_COLORS: Record<Theme, string> = { dark: '#0a0b0f', light: '#f7f6f3' };
-
-export const currentTheme = (): Theme =>
-  document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+import {
+  TOGGLE_ORDER as ORDER,
+  cycleTheme,
+  getThemeChoice,
+  initTheme,
+  onThemeChange,
+  resolveTheme,
+  setThemeChoice,
+} from '@nish/ui/theme';
+import type { ThemeChoice } from '@nish/ui/theme';
 
 /**
- * Applies the theme to <html> and the browser chrome and remembers it. Dark is the
- * default for everyone (the inline script in index.html applies it before first paint);
- * the OS preference is deliberately not consulted.
+ * Theme switching comes from @nish/ui: the choice ('system', 'light' or 'dark') lives in
+ * the shared `nish-theme` cookie on .nish.software (and localStorage), so it matches
+ * every other subdomain. The pre-paint script in index.html is @nish/ui's theme-init.js,
+ * inlined at build time by vite.config.ts.
  */
-export const applyTheme = (theme: Theme): void => {
-  document.documentElement.dataset.theme = theme;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[theme]);
+
+/** Before @nish/ui the hub kept its choice under this localStorage key. */
+export const LEGACY_KEY = 'theme';
+
+/**
+ * Carries a choice made under the old key over to the shared one, once. The inline
+ * pre-paint snippet already copied it into localStorage so the first paint is right;
+ * this saves it through setThemeChoice so the shared cookie gets it too, then drops the
+ * old key.
+ */
+const migrateLegacyTheme = (): void => {
   try {
-    localStorage.setItem(STORAGE_KEY, theme);
+    const legacy = localStorage.getItem(LEGACY_KEY);
+    if (legacy === null) return;
+    localStorage.removeItem(LEGACY_KEY);
+    if (legacy === 'light' || legacy === 'dark') setThemeChoice(getThemeChoice());
   } catch {
-    /* private mode or blocked storage: the choice just does not survive a reload */
+    /* storage blocked: nothing was saved under the old key either */
   }
 };
 
-export const toggleTheme = (): Theme => {
-  const next: Theme = currentTheme() === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-  return next;
+const LABEL: Record<string, string> = { system: 'System', light: 'Light', dark: 'Dark' };
+
+/** The hub offers system, light and dark; a preset chosen on another site reads as system here. */
+const shownChoice = (): ThemeChoice => {
+  const c = getThemeChoice();
+  return ORDER.includes(c) ? c : 'system';
+};
+
+/** Wires the header toggle: shows the active choice and steps system → light → dark. */
+export const setupTheme = (toggle: HTMLButtonElement | null): void => {
+  migrateLegacyTheme();
+  initTheme();
+  if (!toggle) return;
+  const sync = (): void => {
+    const choice = shownChoice();
+    const next = ORDER[(ORDER.indexOf(choice) + 1) % ORDER.length];
+    const shown = choice === 'system' ? `System (${LABEL[resolveTheme('system')].toLowerCase()})` : LABEL[choice];
+    toggle.dataset.choice = choice;
+    toggle.setAttribute('aria-label', `Theme: ${shown}. Switch to ${LABEL[next]}`);
+    toggle.title = `Theme: ${shown}`;
+    const label = toggle.querySelector('.theme-toggle__label');
+    if (label) label.textContent = LABEL[choice];
+  };
+  toggle.addEventListener('click', () => {
+    cycleTheme();
+    sync();
+  });
+  onThemeChange(sync);
+  sync();
 };
