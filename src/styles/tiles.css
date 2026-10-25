@@ -86,7 +86,7 @@
   display: grid;
   place-items: center;
   color: var(--accent);
-  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  background: var(--accent-soft);
   border: 1px solid color-mix(in oklab, var(--accent) 28%, transparent);
   margin-right: auto;
 }
@@ -150,14 +150,6 @@
 .tile[data-reach='soon'] .tile__arrow {
   display: none;
 }
-.tile[data-reach='probing'] .status__dot {
-  background: var(--wait);
-  animation: pulse 1.2s ease-in-out infinite;
-}
-.tile[data-reach='ok'] .status__dot {
-  background: var(--ok);
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ok) 22%, transparent);
-}
 .tile[data-reach='ok'] .status {
   color: var(--text-2);
 }
@@ -174,21 +166,7 @@
 .tile[data-reach='unreachable'] .tile__link:hover::after {
   opacity: 0;
 }
-.tile[data-reach='unreachable'] .status__dot {
-  background: var(--off);
-}
 .tile[data-reach='idle'] .status {
   display: none;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(0.8);
-  }
-}

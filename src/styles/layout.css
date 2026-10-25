@@ -65,12 +65,8 @@
   color: var(--text-3);
   white-space: nowrap;
 }
+/* The dot itself is @nish/ui's .nish-dot (tiles.ts sets its tone per state). */
 .status__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--off);
-  flex: none;
   transition: background-color var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
 }
 

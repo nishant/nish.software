@@ -33,10 +33,6 @@
   --glow-alpha: 0.28;
   --noise-alpha: 0.05;
 
-  /* Probe dots: online, unknown/unreachable, checking. */
-  --ok: var(--nish-ok);
-  --off: var(--nish-ghost);
-  --wait: var(--nish-warn);
 
   /* Tile accent hues, tuned per theme by @nish/ui to hold contrast on both. */
   --emerald: var(--nish-emerald);
@@ -55,11 +51,11 @@
 }
 
 /* Map a tile's accent name to --accent so component CSS never cares which one it is. */
-[data-accent='emerald'] { --accent: var(--emerald); }
-[data-accent='indigo'] { --accent: var(--indigo); }
-[data-accent='amber'] { --accent: var(--amber); }
-[data-accent='lime'] { --accent: var(--lime); }
-[data-accent='rose'] { --accent: var(--rose); }
-[data-accent='sky'] { --accent: var(--sky); }
-[data-accent='violet'] { --accent: var(--violet); }
-[data-accent='teal'] { --accent: var(--teal); }
+[data-accent='emerald'] { --accent: var(--emerald); --accent-soft: var(--nish-emerald-soft); }
+[data-accent='indigo'] { --accent: var(--indigo); --accent-soft: var(--nish-indigo-soft); }
+[data-accent='amber'] { --accent: var(--amber); --accent-soft: var(--nish-amber-soft); }
+[data-accent='lime'] { --accent: var(--lime); --accent-soft: var(--nish-lime-soft); }
+[data-accent='rose'] { --accent: var(--rose); --accent-soft: var(--nish-rose-soft); }
+[data-accent='sky'] { --accent: var(--sky); --accent-soft: var(--nish-sky-soft); }
+[data-accent='violet'] { --accent: var(--violet); --accent-soft: var(--nish-violet-soft); }
+[data-accent='teal'] { --accent: var(--teal); --accent-soft: var(--nish-teal-soft); }
