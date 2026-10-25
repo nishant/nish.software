@@ -45,8 +45,8 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
     ${open}
       <div class="tile__top">
         <span class="tile__icon">${icon(t.icon)}</span>
-        ${t.tailnetOnly ? `<span class="badge badge--lock" title="${esc(tailnetNote)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span></span>` : ''}
-        ${t.soon ? `<span class="badge badge--muted">Soon</span>` : ''}
+        ${t.tailnetOnly ? `<span class="nish-badge" title="${esc(tailnetNote)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span></span>` : ''}
+        ${t.soon ? `<span class="nish-badge">Soon</span>` : ''}
         <span class="tile__arrow">${icon('arrow')}</span>
       </div>
       <h3 class="tile__name">${esc(t.name)}</h3>

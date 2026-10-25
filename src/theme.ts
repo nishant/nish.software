@@ -55,7 +55,6 @@ export const setupTheme = (toggle: HTMLButtonElement | null): void => {
   if (!toggle) return;
   mountThemeToggle(toggle);
   const word = document.createElement('span');
-  word.className = 'theme-toggle__label';
   word.setAttribute('aria-hidden', 'true');
   toggle.append(word);
   const sync = (choice: ThemeChoice): void => {

@@ -28,30 +28,7 @@
   color: var(--nish-hi2);
 }
 
-/* Shared small pieces ------------------------------------------------------------ */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 8px;
-  border-radius: var(--nish-radius-pill);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  border: 1px solid var(--nish-line);
-  background: var(--hub-surface);
-  color: var(--nish-hi2);
-  white-space: nowrap;
-}
-.badge--lock {
-  color: var(--nish-hi);
-  border-color: var(--nish-line-strong);
-}
-.badge--muted {
-  color: var(--nish-hi3);
-}
-
+/* Tile status: a @nish/ui dot plus its label ------------------------------------- */
 .status {
   display: inline-flex;
   align-items: center;

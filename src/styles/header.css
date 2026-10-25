@@ -17,33 +17,6 @@
   line-height: 1;
 }
 
-/* The theme button: @nish/ui's mountThemeToggle fills it with the three icons (.nish-theme-btn
-   shows the current one) and keeps its aria-label and title; theme.ts adds the word next to
-   the icon. The hub draws it as a pill, like the link pills below. */
-.theme-toggle {
-  width: auto;
-  height: auto;
-  gap: 8px;
-  min-height: var(--nish-tap-min);
-  padding: 0 14px 0 12px;
-  border-radius: var(--nish-radius-pill);
-  border: 1px solid var(--nish-line);
-  background: var(--hub-surface);
-  color: var(--nish-hi2);
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color var(--nish-dur-fast), border-color var(--nish-dur-fast), color var(--nish-dur-fast);
-}
-.theme-toggle:hover {
-  background: var(--nish-elevated);
-  border-color: var(--nish-line-strong);
-  color: var(--nish-hi);
-}
-.theme-toggle svg {
-  width: 18px;
-  height: 18px;
-}
-
 .hero {
   padding: clamp(40px, 9vw, 96px) 0 clamp(36px, 6vw, 64px);
   display: grid;
@@ -67,39 +40,39 @@
   gap: 8px;
 }
 
+/* Header controls: @nish/ui buttons (.nish-btn on the links, .nish-theme-btn on the theme
+   toggle, which mountThemeToggle fills and labels; theme.ts adds the word), drawn as the hub's
+   44px see-through pills so the ambient glow reads behind them. */
 .pill {
-  display: inline-flex;
-  align-items: center;
+  width: auto;
+  height: var(--nish-tap-min);
   gap: 8px;
-  min-height: var(--nish-tap-min);
   padding: 0 14px 0 12px;
+  border: 1px solid var(--nish-line-strong);
   border-radius: var(--nish-radius-pill);
-  border: 1px solid var(--nish-line);
   background: var(--hub-surface);
-  color: var(--nish-hi2);
-  font-size: 14px;
-  font-weight: 500;
+  color: var(--nish-hi);
+  font-size: var(--nish-text-sm);
+  font-weight: var(--nish-weight-medium);
   transition: background-color var(--nish-dur-fast), border-color var(--nish-dur-fast), color var(--nish-dur-fast), transform var(--nish-dur-fast);
 }
-.pill .icon {
+.pill svg {
   width: 17px;
   height: 17px;
 }
 .pill:hover {
   background: var(--nish-elevated);
-  border-color: var(--nish-line-strong);
-  color: var(--nish-hi);
   transform: translateY(-1px);
 }
 .pill:active {
   transform: translateY(0);
 }
+/* The Resume pill: .nish-btn--soft, with the tint border so it sits with its bordered siblings. */
 .pill--accent {
-  color: var(--nish-hi);
-  border-color: color-mix(in oklab, var(--nish-accent) 45%, var(--nish-line));
+  border-color: color-mix(in srgb, var(--nish-accent) 30%, transparent);
   background: var(--nish-accent-soft);
+  color: var(--nish-accent);
 }
 .pill--accent:hover {
-  background: color-mix(in oklab, var(--nish-accent) 22%, transparent);
-  border-color: color-mix(in oklab, var(--nish-accent) 70%, var(--nish-line));
+  background: color-mix(in srgb, var(--nish-accent) 20%, transparent);
 }
