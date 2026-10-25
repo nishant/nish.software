@@ -62,6 +62,17 @@ export const tiles: Tile[] = [
     probe: true,
   },
   {
+    id: 'trips',
+    name: 'Trips',
+    blurb:
+      'Every trip I plan, as its own page: day-by-day itinerary, map, food, bookings and costs, plus a calendar of what is coming up.',
+    href: 'https://trips.nish.software',
+    icon: 'trips',
+    accent: 'rose',
+    tailnetOnly: false,
+    probe: true,
+  },
+  {
     id: 'nishboard',
     name: 'Nishboard',
     blurb:
