@@ -6,14 +6,7 @@ export const renderHeader = (profile: Profile, links: Link[]): string => `
   <header class="site-header">
     <nav class="topbar" aria-label="Site">
       <a class="wordmark" href="/" aria-label="${esc(profile.name)} home">${esc(profile.name)}</a>
-      <button class="theme-toggle" type="button" data-action="toggle-theme" data-choice="system" aria-label="Theme: System. Switch to Light">
-        <span class="theme-toggle__icons" aria-hidden="true">
-          <span class="theme-toggle__icon theme-toggle__icon--system">${icon('system')}</span>
-          <span class="theme-toggle__icon theme-toggle__icon--light">${icon('sun')}</span>
-          <span class="theme-toggle__icon theme-toggle__icon--dark">${icon('moon')}</span>
-        </span>
-        <span class="theme-toggle__label" aria-hidden="true">System</span>
-      </button>
+      <button class="nish-theme-btn theme-toggle" type="button" data-action="toggle-theme" aria-label="Theme"></button>
     </nav>
     <div class="hero">
       <p class="hero__tagline">${esc(profile.tagline)}</p>

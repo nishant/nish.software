@@ -17,10 +17,12 @@
   line-height: 1;
 }
 
-/* One button that steps system -> light -> dark and always shows the active choice. */
+/* The theme button: @nish/ui's mountThemeToggle fills it with the three icons (.nish-theme-btn
+   shows the current one) and keeps its aria-label and title; theme.ts adds the word next to
+   the icon. The hub draws it as a pill, like the link pills below. */
 .theme-toggle {
-  display: inline-flex;
-  align-items: center;
+  width: auto;
+  height: auto;
   gap: 8px;
   min-height: var(--tap-min);
   padding: 0 14px 0 12px;
@@ -37,27 +39,9 @@
   border-color: var(--border-strong);
   color: var(--text);
 }
-.theme-toggle__icons {
-  display: grid;
-  place-items: center;
-}
-.theme-toggle__icon {
-  grid-area: 1 / 1;
-  display: grid;
-  place-items: center;
-  opacity: 0;
-  transform: rotate(-60deg) scale(0.6);
-  transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out);
-}
-.theme-toggle__icon .icon {
+.theme-toggle svg {
   width: 18px;
   height: 18px;
-}
-.theme-toggle[data-choice='system'] .theme-toggle__icon--system,
-.theme-toggle[data-choice='light'] .theme-toggle__icon--light,
-.theme-toggle[data-choice='dark'] .theme-toggle__icon--dark {
-  opacity: 1;
-  transform: none;
 }
 
 .hero {

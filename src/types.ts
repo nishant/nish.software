@@ -15,9 +15,6 @@ export type IconName =
   | 'linkedin'
   | 'file'
   | 'lock'
-  | 'sun'
-  | 'moon'
-  | 'system'
   | 'arrow'
   | 'code';
 
