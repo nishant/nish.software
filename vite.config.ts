@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { defineConfig, type Plugin } from 'vite';
-import { PRESETS } from '@nish/ui/theme';
 
 const require = createRequire(import.meta.url);
 
@@ -14,18 +13,9 @@ const LEGACY_MIGRATION = `(function(){try{var o=localStorage.getItem('theme');if
 
 const MARKER = '<!-- nish-theme-init -->';
 
-/**
- * @nish/ui's theme-init.js. v0.1.0 ships with its `__THEMES__` placeholder replaced in
- * the header comment instead of the code, so the script throws as published; fill it in
- * from the package's own theme list until a fixed tag lands. A no-op once fixed.
- */
-const themeInitSource = (): string => {
-  // Leading line comments are for readers of the package, not for every page load.
-  const src = readFileSync(require.resolve('@nish/ui/theme-init.js'), 'utf8').replace(/^\s*\/\/.*\n/gm, '');
-  if (!/=\s*__THEMES__/.test(src)) return src;
-  const schemes = Object.fromEntries(PRESETS.map((p) => [p.id, p.scheme]));
-  return src.replace(/=\s*__THEMES__/, () => `= ${JSON.stringify(schemes)}`);
-};
+/** @nish/ui's theme-init.js, minus its leading comments (they are for readers of the package, not every page load). */
+const themeInitSource = (): string =>
+  readFileSync(require.resolve('@nish/ui/theme-init.js'), 'utf8').replace(/^\s*\/\/.*\n/gm, '');
 
 /**
  * Inlines @nish/ui's pre-paint theme script where index.html has the marker (after the
