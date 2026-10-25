@@ -4,15 +4,17 @@
   box-sizing: border-box;
 }
 
+/* @nish/ui's base paints the page background on <html>; body stays transparent so the
+   ambient glows below (fixed, behind body) show through. */
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  transition: background-color var(--dur-med) var(--ease-out);
 }
 
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;
@@ -21,7 +23,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background-color var(--dur-med) var(--ease-out), color var(--dur-med) var(--ease-out);
+  transition: color var(--dur-med) var(--ease-out);
 }
 
 /* Ambient background: two soft accent glows plus a fine grain, fixed behind everything. */
@@ -76,7 +78,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent, var(--indigo));
+  outline: var(--nish-focus-width) solid var(--accent, var(--nish-focus));
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }

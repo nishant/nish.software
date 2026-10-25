@@ -1,3 +1,4 @@
+import '@nish/ui/nish.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/layout.css';
@@ -10,7 +11,7 @@ import { probeAll } from './probe';
 import { renderFooter } from './render/footer';
 import { renderHeader } from './render/header';
 import { renderTiles, setTileState } from './render/tiles';
-import { currentTheme, toggleTheme } from './theme';
+import { setupTheme } from './theme';
 import { hostOf } from './util';
 
 const app = document.querySelector<HTMLDivElement>('#app');
@@ -26,15 +27,7 @@ app.innerHTML = `
 `;
 
 // Theme toggle -----------------------------------------------------------------
-const toggle = app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]');
-const syncToggleLabel = (): void => {
-  toggle?.setAttribute('aria-label', `Switch to ${currentTheme() === 'dark' ? 'light' : 'dark'} theme`);
-};
-toggle?.addEventListener('click', () => {
-  toggleTheme();
-  syncToggleLabel();
-});
-syncToggleLabel();
+setupTheme(app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]'));
 
 // Tiles the probe found unreachable: explain instead of navigating into a timeout.
 // Tiles that could not be probed (tailnet hosts in Chrome) navigate normally.
