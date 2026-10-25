@@ -6,6 +6,7 @@ export type IconName =
   | 'startpage'
   | 'jobs'
   | 'minecraft'
+  | 'trips'
   | 'monitor'
   | 'github'
   | 'linkedin'
