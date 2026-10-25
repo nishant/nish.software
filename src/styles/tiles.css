@@ -114,14 +114,14 @@
 }
 
 .tile__name {
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.015em;
+  font-size: var(--nish-text-lg);
+  font-weight: var(--nish-weight-semibold);
+  letter-spacing: var(--nish-tracking-tight);
   margin-top: 4px;
 }
 
 .tile__blurb {
-  font-size: 14px;
+  font-size: var(--nish-text-sm);
   line-height: 1.45;
   color: var(--nish-hi2);
   flex: 1;
@@ -137,7 +137,7 @@
 
 .tile__host {
   font-family: var(--nish-font-mono);
-  font-size: 12px;
+  font-size: var(--nish-text-xs);
   color: var(--nish-hi3);
   overflow: hidden;
   text-overflow: ellipsis;

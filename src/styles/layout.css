@@ -22,8 +22,8 @@
 
 .section__title {
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: var(--nish-weight-semibold);
+  letter-spacing: var(--nish-tracking-caps);
   text-transform: uppercase;
   color: var(--nish-hi2);
 }
@@ -33,7 +33,7 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 12px;
+  font-size: var(--nish-text-xs);
   color: var(--nish-hi3);
   white-space: nowrap;
 }
@@ -55,14 +55,14 @@
   background: var(--nish-elevated);
   border: 1px solid var(--nish-line-strong);
   box-shadow: var(--nish-shadow-pop);
-  font-size: 14px;
+  font-size: var(--nish-text-sm);
   color: var(--nish-hi2);
   z-index: var(--nish-z-toast);
   animation: rise 240ms var(--nish-ease-out) both;
 }
 .toast strong {
   color: var(--nish-hi);
-  font-weight: 600;
+  font-weight: var(--nish-weight-semibold);
 }
 .toast a {
   color: var(--nish-hi);
