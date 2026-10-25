@@ -1,6 +1,6 @@
 import '@nish/ui/nish.css';
-import './styles/tokens.css';
 import './styles/base.css';
+import '@nish/ui/nish-components.css';
 import './styles/layout.css';
 import './styles/header.css';
 import './styles/tiles.css';

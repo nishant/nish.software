@@ -1,10 +1,10 @@
 import {
-  TOGGLE_ORDER as ORDER,
-  cycleTheme,
+  PRESETS,
+  TOGGLE_ORDER,
   getThemeChoice,
   initTheme,
+  mountThemeToggle,
   onThemeChange,
-  resolveTheme,
   setThemeChoice,
 } from '@nish/ui/theme';
 import type { ThemeChoice } from '@nish/ui/theme';
@@ -36,33 +36,30 @@ const migrateLegacyTheme = (): void => {
   }
 };
 
-const LABEL: Record<string, string> = { system: 'System', light: 'Light', dark: 'Dark' };
+const WORD: Record<string, string> = { system: 'System', light: 'Light', dark: 'Dark' };
 
-/** The hub offers system, light and dark; a preset chosen on another site reads as system here. */
-const shownChoice = (): ThemeChoice => {
-  const c = getThemeChoice();
-  return ORDER.includes(c) ? c : 'system';
-};
+/** The word the button shows: System, Light, Dark, or a preset's name ("Mocha") when one was picked on another site. */
+const wordFor = (choice: ThemeChoice): string =>
+  (TOGGLE_ORDER as readonly string[]).includes(choice)
+    ? WORD[choice]
+    : (PRESETS.find((p) => p.id === choice)?.label ?? choice);
 
-/** Wires the header toggle: shows the active choice and steps system → light → dark. */
+/**
+ * Wires the header toggle. @nish/ui's mountThemeToggle does the work (icons, labels,
+ * cycling, cross-tab sync); the hub only adds the visible word next to the icon, which
+ * the shared helper does not render. Local until @nish/ui grows a labelled variant.
+ */
 export const setupTheme = (toggle: HTMLButtonElement | null): void => {
   migrateLegacyTheme();
   initTheme();
   if (!toggle) return;
-  const sync = (): void => {
-    const choice = shownChoice();
-    const next = ORDER[(ORDER.indexOf(choice) + 1) % ORDER.length];
-    const shown = choice === 'system' ? `System (${LABEL[resolveTheme('system')].toLowerCase()})` : LABEL[choice];
-    toggle.dataset.choice = choice;
-    toggle.setAttribute('aria-label', `Theme: ${shown}. Switch to ${LABEL[next]}`);
-    toggle.title = `Theme: ${shown}`;
-    const label = toggle.querySelector('.theme-toggle__label');
-    if (label) label.textContent = LABEL[choice];
+  mountThemeToggle(toggle);
+  const word = document.createElement('span');
+  word.setAttribute('aria-hidden', 'true');
+  toggle.append(word);
+  const sync = (choice: ThemeChoice): void => {
+    word.textContent = wordFor(choice);
   };
-  toggle.addEventListener('click', () => {
-    cycleTheme();
-    sync();
-  });
   onThemeChange(sync);
-  sync();
+  sync(getThemeChoice());
 };

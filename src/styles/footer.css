@@ -5,9 +5,9 @@
   justify-content: space-between;
   gap: 12px 24px;
   padding: 24px 0 max(28px, env(safe-area-inset-bottom));
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--nish-line);
   font-size: 13px;
-  color: var(--text-3);
+  color: var(--nish-hi3);
 }
 
 .site-footer__links {
@@ -18,10 +18,10 @@
 .site-footer__links a {
   display: inline-flex;
   align-items: center;
-  min-height: var(--tap-min);
-  color: var(--text-2);
-  transition: color var(--dur-fast);
+  min-height: var(--nish-tap-min);
+  color: var(--nish-hi2);
+  transition: color var(--nish-dur-fast);
 }
 .site-footer__links a:hover {
-  color: var(--text);
+  color: var(--nish-hi);
 }

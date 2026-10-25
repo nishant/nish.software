@@ -10,6 +10,15 @@ const STATUS_LABEL: Record<ReachState, string> = {
   soon: 'Coming soon',
 };
 
+/** @nish/ui status dot per state (nish-components.css): fills, halo and pulse come from there. */
+const DOT_CLASS: Record<ReachState, string> = {
+  idle: 'nish-dot',
+  probing: 'nish-dot nish-dot--warn nish-dot--pulse',
+  ok: 'nish-dot nish-dot--ok nish-dot--halo',
+  unreachable: 'nish-dot',
+  soon: 'nish-dot',
+};
+
 // Tailnet tiles start without a dot: probe.ts decides whether pinging them is possible.
 const initialState = (t: Tile): ReachState =>
   t.soon ? 'soon' : t.probe && !t.tailnetOnly ? 'probing' : 'idle';
@@ -36,8 +45,8 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
     ${open}
       <div class="tile__top">
         <span class="tile__icon">${icon(t.icon)}</span>
-        ${t.tailnetOnly ? `<span class="badge badge--lock" title="${esc(tailnetNote)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span></span>` : ''}
-        ${t.soon ? `<span class="badge badge--muted">Soon</span>` : ''}
+        ${t.tailnetOnly ? `<span class="nish-badge" title="${esc(tailnetNote)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span></span>` : ''}
+        ${t.soon ? `<span class="nish-badge">Soon</span>` : ''}
         <span class="tile__arrow">${icon('arrow')}</span>
       </div>
       <h3 class="tile__name">${esc(t.name)}</h3>
@@ -45,7 +54,7 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
       <div class="tile__foot">
         <span class="tile__host">${esc(hostOf(t.href))}</span>
         <span class="status" data-status>
-          <span class="status__dot"></span>
+          <span class="status__dot ${DOT_CLASS[state]}" aria-hidden="true"></span>
           <span class="status__label">${STATUS_LABEL[state]}</span>
         </span>
       </div>
@@ -58,6 +67,8 @@ export const setTileState = (root: ParentNode, tile: Tile, state: ReachState): v
   const el = root.querySelector<HTMLElement>(`[data-tile="${tile.id}"]`);
   if (!el) return;
   el.dataset.reach = state;
+  const dot = el.querySelector<HTMLElement>('.status__dot');
+  if (dot) dot.className = `status__dot ${DOT_CLASS[state]}`;
   const label = el.querySelector<HTMLElement>('.status__label');
   if (label) {
     label.textContent = state === 'unreachable' && tile.tailnetOnly ? 'Tailnet only' : STATUS_LABEL[state];

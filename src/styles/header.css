@@ -10,54 +10,11 @@
 .wordmark {
   display: inline-flex;
   align-items: center;
-  min-height: var(--tap-min);
+  min-height: var(--nish-tap-min);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: var(--nish-weight-bold);
   letter-spacing: -0.04em;
   line-height: 1;
-}
-
-/* One button that steps system -> light -> dark and always shows the active choice. */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: var(--tap-min);
-  padding: 0 14px 0 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-2);
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
-}
-.theme-toggle:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-strong);
-  color: var(--text);
-}
-.theme-toggle__icons {
-  display: grid;
-  place-items: center;
-}
-.theme-toggle__icon {
-  grid-area: 1 / 1;
-  display: grid;
-  place-items: center;
-  opacity: 0;
-  transform: rotate(-60deg) scale(0.6);
-  transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out);
-}
-.theme-toggle__icon .icon {
-  width: 18px;
-  height: 18px;
-}
-.theme-toggle[data-choice='system'] .theme-toggle__icon--system,
-.theme-toggle[data-choice='light'] .theme-toggle__icon--light,
-.theme-toggle[data-choice='dark'] .theme-toggle__icon--dark {
-  opacity: 1;
-  transform: none;
 }
 
 .hero {
@@ -70,7 +27,7 @@
 .hero__tagline {
   --i: 0;
   font-size: clamp(26px, 4.6vw, 44px);
-  font-weight: 600;
+  font-weight: var(--nish-weight-semibold);
   letter-spacing: -0.03em;
   line-height: 1.12;
   text-wrap: balance;
@@ -83,40 +40,39 @@
   gap: 8px;
 }
 
+/* Header controls: @nish/ui buttons (.nish-btn on the links, .nish-theme-btn on the theme
+   toggle, which mountThemeToggle fills and labels; theme.ts adds the word), drawn as the hub's
+   44px see-through pills so the ambient glow reads behind them. */
 .pill {
-  display: inline-flex;
-  align-items: center;
+  width: auto;
+  height: var(--nish-tap-min);
   gap: 8px;
-  min-height: var(--tap-min);
   padding: 0 14px 0 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-2);
-  font-size: 14px;
-  font-weight: 500;
-  transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+  border: 1px solid var(--nish-line-strong);
+  border-radius: var(--nish-radius-pill);
+  background: var(--hub-surface);
+  color: var(--nish-hi);
+  font-size: var(--nish-text-sm);
+  font-weight: var(--nish-weight-medium);
+  transition: background-color var(--nish-dur-fast), border-color var(--nish-dur-fast), color var(--nish-dur-fast), transform var(--nish-dur-fast);
 }
-.pill .icon {
+.pill svg {
   width: 17px;
   height: 17px;
 }
 .pill:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-strong);
-  color: var(--text);
+  background: var(--nish-elevated);
   transform: translateY(-1px);
 }
 .pill:active {
   transform: translateY(0);
 }
+/* The Resume pill: .nish-btn--soft, with the tint border so it sits with its bordered siblings. */
 .pill--accent {
-  --accent: var(--nish-accent);
-  color: var(--text);
-  border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
-  background: color-mix(in oklab, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--nish-accent) 30%, transparent);
+  background: var(--nish-accent-soft);
+  color: var(--nish-accent);
 }
 .pill--accent:hover {
-  background: color-mix(in oklab, var(--accent) 22%, transparent);
-  border-color: color-mix(in oklab, var(--accent) 70%, var(--border));
+  background: color-mix(in srgb, var(--nish-accent) 20%, transparent);
 }

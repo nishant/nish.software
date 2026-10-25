@@ -1,0 +1,9 @@
+{
+  "name": "hub",
+  "pages": [{ "name": "home", "url": "http://localhost:4173/", "waitFor": ".tiles" }],
+  "viewports": ["desktop", "laptop", "phone", "phone-small"],
+  "themes": ["dark", "light", "mocha"],
+  "setTheme": "try{localStorage.setItem('nish-theme','{theme}')}catch(e){}",
+  "ignoreConsole": ["Failed to load resource", "net::ERR_", "Local Network Access", "private network"],
+  "fullPage": true
+}
