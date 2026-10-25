@@ -14,7 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nish/ui": "github:nishant/ui#v0.1.1"
+    "@nish/ui": "github:nishant/ui#v0.2.1"
   },
   "devDependencies": {
     "typescript": "~6.0.2",
