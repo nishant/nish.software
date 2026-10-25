@@ -1,4 +1,4 @@
-/** One accent hue per tile; styles/tokens.css maps each to its @nish/ui --nish-<hue>. */
+/** One accent hue per tile; styles/tiles.css maps each to its @nish/ui --nish-<hue> and --nish-<hue>-soft. */
 export type Accent = 'emerald' | 'indigo' | 'amber' | 'lime' | 'rose' | 'sky' | 'violet' | 'teal';
 
 export type IconName =

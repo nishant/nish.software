@@ -10,7 +10,7 @@
 .wordmark {
   display: inline-flex;
   align-items: center;
-  min-height: var(--tap-min);
+  min-height: var(--nish-tap-min);
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.04em;
@@ -24,20 +24,20 @@
   width: auto;
   height: auto;
   gap: 8px;
-  min-height: var(--tap-min);
+  min-height: var(--nish-tap-min);
   padding: 0 14px 0 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-2);
+  border-radius: var(--nish-radius-pill);
+  border: 1px solid var(--nish-line);
+  background: var(--hub-surface);
+  color: var(--nish-hi2);
   font-size: 14px;
   font-weight: 500;
-  transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast);
+  transition: background-color var(--nish-dur-fast), border-color var(--nish-dur-fast), color var(--nish-dur-fast);
 }
 .theme-toggle:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-strong);
-  color: var(--text);
+  background: var(--nish-elevated);
+  border-color: var(--nish-line-strong);
+  color: var(--nish-hi);
 }
 .theme-toggle svg {
   width: 18px;
@@ -71,36 +71,35 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: var(--tap-min);
+  min-height: var(--nish-tap-min);
   padding: 0 14px 0 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-2);
+  border-radius: var(--nish-radius-pill);
+  border: 1px solid var(--nish-line);
+  background: var(--hub-surface);
+  color: var(--nish-hi2);
   font-size: 14px;
   font-weight: 500;
-  transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+  transition: background-color var(--nish-dur-fast), border-color var(--nish-dur-fast), color var(--nish-dur-fast), transform var(--nish-dur-fast);
 }
 .pill .icon {
   width: 17px;
   height: 17px;
 }
 .pill:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-strong);
-  color: var(--text);
+  background: var(--nish-elevated);
+  border-color: var(--nish-line-strong);
+  color: var(--nish-hi);
   transform: translateY(-1px);
 }
 .pill:active {
   transform: translateY(0);
 }
 .pill--accent {
-  --accent: var(--nish-accent);
-  color: var(--text);
-  border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
+  color: var(--nish-hi);
+  border-color: color-mix(in oklab, var(--nish-accent) 45%, var(--nish-line));
   background: var(--nish-accent-soft);
 }
 .pill--accent:hover {
-  background: color-mix(in oklab, var(--accent) 22%, transparent);
-  border-color: color-mix(in oklab, var(--accent) 70%, var(--border));
+  background: color-mix(in oklab, var(--nish-accent) 22%, transparent);
+  border-color: color-mix(in oklab, var(--nish-accent) 70%, var(--nish-line));
 }

@@ -1,3 +1,15 @@
+/* Hub-only values. Everything else is a @nish/ui role (--nish-*), used directly. */
+:root {
+  /* Tiles and pills stay slightly see-through so the ambient glows read behind them. */
+  --hub-surface: color-mix(in srgb, var(--nish-surface) 82%, transparent);
+  --glow-alpha: 0.28;
+  --noise-alpha: 0.05;
+}
+:root[data-scheme='light'] {
+  --glow-alpha: 0.18;
+  --noise-alpha: 0.035;
+}
+
 *,
 *::before,
 *::after {
@@ -9,21 +21,21 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  transition: background-color var(--dur-med) var(--ease-out);
+  transition: background-color var(--nish-dur-med) var(--nish-ease-out);
 }
 
 body {
   margin: 0;
   min-height: 100dvh;
-  color: var(--text);
-  font-family: var(--font-sans);
+  color: var(--nish-hi);
+  font-family: var(--nish-font-sans);
   font-size: 16px;
   line-height: 1.5;
   font-feature-settings: 'cv11', 'ss01', 'calt';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: color var(--dur-med) var(--ease-out);
+  transition: color var(--nish-dur-med) var(--nish-ease-out);
 }
 
 /* Ambient background: two soft accent glows plus a fine grain, fixed behind everything. */
@@ -34,9 +46,9 @@ body::before {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(60% 45% at 15% 0%, color-mix(in oklab, var(--indigo) 22%, transparent), transparent 70%),
-    radial-gradient(50% 40% at 90% 10%, color-mix(in oklab, var(--emerald) 16%, transparent), transparent 70%),
-    radial-gradient(40% 40% at 70% 100%, color-mix(in oklab, var(--amber) 10%, transparent), transparent 70%);
+    radial-gradient(60% 45% at 15% 0%, color-mix(in oklab, var(--nish-indigo) 22%, transparent), transparent 70%),
+    radial-gradient(50% 40% at 90% 10%, color-mix(in oklab, var(--nish-emerald) 16%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 70% 100%, color-mix(in oklab, var(--nish-amber) 10%, transparent), transparent 70%);
 }
 body::after {
   content: '';
@@ -76,9 +88,9 @@ body::after {
 }
 
 :focus-visible {
-  outline: var(--nish-focus-width) solid var(--accent, var(--nish-focus));
+  outline: var(--nish-focus-width) solid var(--tile-hue, var(--nish-accent));
   outline-offset: 3px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--nish-radius-sm);
 }
 
 .icon {
@@ -105,9 +117,9 @@ body::after {
   left: 16px;
   top: -48px;
   padding: 8px 12px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
+  background: var(--nish-elevated);
+  border: 1px solid var(--nish-line-strong);
+  border-radius: var(--nish-radius-sm);
   z-index: 10;
 }
 .skip-link:focus {
@@ -129,7 +141,7 @@ body::after {
 .tile,
 .project,
 .hero > * {
-  animation: rise 560ms var(--ease-out) both;
+  animation: rise 560ms var(--nish-ease-out) both;
   animation-delay: calc(var(--i, 0) * 45ms + 60ms);
 }
 

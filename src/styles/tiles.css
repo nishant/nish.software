@@ -1,3 +1,14 @@
+/* Each tile carries data-accent="<hue>"; map it to the @nish/ui hue and its soft tint so the
+   rules below never care which one it is. */
+[data-accent='emerald'] { --tile-hue: var(--nish-emerald); --tile-hue-soft: var(--nish-emerald-soft); }
+[data-accent='indigo'] { --tile-hue: var(--nish-indigo); --tile-hue-soft: var(--nish-indigo-soft); }
+[data-accent='amber'] { --tile-hue: var(--nish-amber); --tile-hue-soft: var(--nish-amber-soft); }
+[data-accent='lime'] { --tile-hue: var(--nish-lime); --tile-hue-soft: var(--nish-lime-soft); }
+[data-accent='rose'] { --tile-hue: var(--nish-rose); --tile-hue-soft: var(--nish-rose-soft); }
+[data-accent='sky'] { --tile-hue: var(--nish-sky); --tile-hue-soft: var(--nish-sky-soft); }
+[data-accent='violet'] { --tile-hue: var(--nish-violet); --tile-hue-soft: var(--nish-violet-soft); }
+[data-accent='teal'] { --tile-hue: var(--nish-teal); --tile-hue-soft: var(--nish-teal-soft); }
+
 .tiles {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
@@ -6,8 +17,8 @@
 
 .tile {
   position: relative;
-  border-radius: var(--radius-lg);
-  transition: opacity var(--dur-med) var(--ease-out), filter var(--dur-med) var(--ease-out);
+  border-radius: var(--nish-radius-lg);
+  transition: opacity var(--nish-dur-med) var(--nish-ease-out), filter var(--nish-dur-med) var(--nish-ease-out);
 }
 
 .tile__link {
@@ -19,17 +30,17 @@
   min-height: 188px;
   padding: 18px 18px 16px;
   border-radius: inherit;
-  border: 1px solid var(--border);
+  border: 1px solid var(--nish-line);
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--accent) 7%, transparent), transparent 55%),
-    var(--surface);
-  box-shadow: var(--shadow);
+    linear-gradient(180deg, color-mix(in oklab, var(--tile-hue) 7%, transparent), transparent 55%),
+    var(--hub-surface);
+  box-shadow: var(--nish-shadow-card);
   overflow: hidden;
   transition:
-    transform var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast),
-    box-shadow var(--dur-med) var(--ease-out),
-    background-color var(--dur-fast);
+    transform var(--nish-dur-fast) var(--nish-ease-out),
+    border-color var(--nish-dur-fast),
+    box-shadow var(--nish-dur-med) var(--nish-ease-out),
+    background-color var(--nish-dur-fast);
 }
 /* Accent hairline along the top edge. */
 .tile__link::before {
@@ -37,7 +48,7 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent) 80%, transparent), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--tile-hue) 80%, transparent), transparent);
   opacity: 0.7;
 }
 /* Accent glow that grows on hover. */
@@ -46,20 +57,20 @@
   position: absolute;
   inset: -40% -20% auto -20%;
   height: 90%;
-  background: radial-gradient(50% 60% at 50% 0%, color-mix(in oklab, var(--accent) 35%, transparent), transparent 70%);
+  background: radial-gradient(50% 60% at 50% 0%, color-mix(in oklab, var(--tile-hue) 35%, transparent), transparent 70%);
   opacity: 0;
-  transition: opacity var(--dur-med) var(--ease-out);
+  transition: opacity var(--nish-dur-med) var(--nish-ease-out);
   pointer-events: none;
 }
 
 @media (hover: hover) {
   .tile__link:hover {
     transform: translateY(-3px);
-    border-color: color-mix(in oklab, var(--accent) 45%, var(--border));
+    border-color: color-mix(in oklab, var(--tile-hue) 45%, var(--nish-line));
     box-shadow:
-      var(--shadow-hover),
-      0 0 0 1px color-mix(in oklab, var(--accent) 20%, transparent),
-      0 18px 50px -18px color-mix(in oklab, var(--accent) calc(var(--glow-alpha) * 100%), transparent);
+      var(--nish-shadow-pop),
+      0 0 0 1px color-mix(in oklab, var(--tile-hue) 20%, transparent),
+      0 18px 50px -18px color-mix(in oklab, var(--tile-hue) calc(var(--glow-alpha) * 100%), transparent);
   }
   .tile__link:hover::after {
     opacity: 1;
@@ -85,17 +96,17 @@
   border-radius: 12px;
   display: grid;
   place-items: center;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid color-mix(in oklab, var(--accent) 28%, transparent);
+  color: var(--tile-hue);
+  background: var(--tile-hue-soft);
+  border: 1px solid color-mix(in oklab, var(--tile-hue) 28%, transparent);
   margin-right: auto;
 }
 
 .tile__arrow {
-  color: var(--text-3);
+  color: var(--nish-hi3);
   opacity: 0;
   transform: translate(-4px, 4px);
-  transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out);
+  transition: opacity var(--nish-dur-fast), transform var(--nish-dur-fast) var(--nish-ease-out);
 }
 .tile__arrow .icon {
   width: 18px;
@@ -112,7 +123,7 @@
 .tile__blurb {
   font-size: 14px;
   line-height: 1.45;
-  color: var(--text-2);
+  color: var(--nish-hi2);
   flex: 1;
 }
 
@@ -125,9 +136,9 @@
 }
 
 .tile__host {
-  font-family: var(--font-mono);
+  font-family: var(--nish-font-mono);
   font-size: 12px;
-  color: var(--text-3);
+  color: var(--nish-hi3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -151,7 +162,7 @@
   display: none;
 }
 .tile[data-reach='ok'] .status {
-  color: var(--text-2);
+  color: var(--nish-hi2);
 }
 .tile[data-reach='unreachable'] {
   opacity: 0.55;

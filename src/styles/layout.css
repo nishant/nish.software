@@ -1,7 +1,7 @@
 .page,
 .site-header,
 .site-footer {
-  width: min(100% - 2 * var(--gutter), var(--page-max));
+  width: min(100% - 2 * var(--nish-gutter), var(--nish-page-max));
   margin-inline: auto;
 }
 
@@ -25,12 +25,12 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-2);
+  color: var(--nish-hi2);
 }
 
 .section__hint {
   font-size: 13px;
-  color: var(--text-3);
+  color: var(--nish-hi3);
 }
 
 /* Shared small pieces ------------------------------------------------------------ */
@@ -39,22 +39,22 @@
   align-items: center;
   gap: 5px;
   padding: 4px 8px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--nish-radius-pill);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-2);
+  border: 1px solid var(--nish-line);
+  background: var(--hub-surface);
+  color: var(--nish-hi2);
   white-space: nowrap;
 }
 .badge--lock {
-  color: var(--text);
-  border-color: var(--border-strong);
+  color: var(--nish-hi);
+  border-color: var(--nish-line-strong);
 }
 .badge--muted {
-  color: var(--text-3);
+  color: var(--nish-hi3);
 }
 
 .status {
@@ -62,12 +62,12 @@
   align-items: center;
   gap: 7px;
   font-size: 12px;
-  color: var(--text-3);
+  color: var(--nish-hi3);
   white-space: nowrap;
 }
 /* The dot itself is @nish/ui's .nish-dot (tiles.ts sets its tone per state). */
 .status__dot {
-  transition: background-color var(--dur-med) var(--ease-out), box-shadow var(--dur-med) var(--ease-out);
+  transition: background-color var(--nish-dur-med) var(--nish-ease-out), box-shadow var(--nish-dur-med) var(--nish-ease-out);
 }
 
 .toast {
@@ -77,23 +77,23 @@
   right: 0;
   margin-inline: auto;
   bottom: max(16px, env(safe-area-inset-bottom));
-  width: min(100% - 2 * var(--gutter), 520px);
+  width: min(100% - 2 * var(--nish-gutter), 520px);
   padding: 12px 16px;
-  border-radius: var(--radius-md);
-  background: var(--bg-elev);
-  border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-hover);
+  border-radius: var(--nish-radius-md);
+  background: var(--nish-elevated);
+  border: 1px solid var(--nish-line-strong);
+  box-shadow: var(--nish-shadow-pop);
   font-size: 14px;
-  color: var(--text-2);
+  color: var(--nish-hi2);
   z-index: var(--nish-z-toast);
-  animation: rise 240ms var(--ease-out) both;
+  animation: rise 240ms var(--nish-ease-out) both;
 }
 .toast strong {
-  color: var(--text);
+  color: var(--nish-hi);
   font-weight: 600;
 }
 .toast a {
-  color: var(--text);
+  color: var(--nish-hi);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
