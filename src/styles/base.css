@@ -58,7 +58,7 @@ body::after {
 }
 
 /* Element resets in :where() (zero specificity), imported before @nish/ui's
-   nish-components.css, so a nish-* class on an <a> or <button> still wins. */
+   nish-components.css, so a nish-* class on a link or button still wins. */
 :where(h1, h2, h3, p, ul) {
   margin: 0;
 }
