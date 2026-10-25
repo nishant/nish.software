@@ -93,6 +93,16 @@ export const tiles: Tile[] = [
     probe: true,
   },
   {
+    id: 'design',
+    name: 'Design system',
+    blurb: 'The shared theme and components every nish.software app is built from.',
+    href: 'https://design.nish.software',
+    icon: 'palette',
+    accent: 'indigo',
+    tailnetOnly: false,
+    probe: true,
+  },
+  {
     id: 'nishboard',
     name: 'Nishboard',
     blurb:
