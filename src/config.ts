@@ -83,6 +83,16 @@ export const tiles: Tile[] = [
     probe: true,
   },
   {
+    id: 'trackers',
+    name: 'Trackers',
+    blurb: 'Price and fare trackers: one item across every store, flights per trip, each with its full price history.',
+    href: 'https://trackers.nish.software',
+    icon: 'chart',
+    accent: 'violet',
+    tailnetOnly: false,
+    probe: true,
+  },
+  {
     id: 'nishboard',
     name: 'Nishboard',
     blurb:

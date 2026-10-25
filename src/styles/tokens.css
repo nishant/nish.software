@@ -42,6 +42,7 @@
   --rose: #fb7185;
   --sky: #38bdf8;
   --teal: #2dd4bf;
+  --violet: #a78bfa;
 
   color-scheme: dark;
 }
@@ -72,6 +73,7 @@
   --rose: #e11d48;
   --sky: #0284c7;
   --teal: #0d9488;
+  --violet: #7c3aed;
 
   color-scheme: light;
 }
@@ -84,3 +86,4 @@
 [data-accent='rose'] { --accent: var(--rose); }
 [data-accent='sky'] { --accent: var(--sky); }
 [data-accent='teal'] { --accent: var(--teal); }
+[data-accent='violet'] { --accent: var(--violet); }
