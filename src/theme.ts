@@ -1,13 +1,4 @@
-import {
-  PRESETS,
-  TOGGLE_ORDER,
-  getThemeChoice,
-  initTheme,
-  mountThemeToggle,
-  onThemeChange,
-  setThemeChoice,
-} from '@nish/ui/theme';
-import type { ThemeChoice } from '@nish/ui/theme';
+import { getThemeChoice, initTheme, mountThemeToggle, setThemeChoice } from '@nish/ui/theme';
 
 /**
  * Theme switching comes from @nish/ui: the choice ('system', 'light' or 'dark') lives in
@@ -36,30 +27,13 @@ const migrateLegacyTheme = (): void => {
   }
 };
 
-const WORD: Record<string, string> = { system: 'System', light: 'Light', dark: 'Dark' };
-
-/** The word the button shows: System, Light, Dark, or a preset's name ("Mocha") when one was picked on another site. */
-const wordFor = (choice: ThemeChoice): string =>
-  (TOGGLE_ORDER as readonly string[]).includes(choice)
-    ? WORD[choice]
-    : (PRESETS.find((p) => p.id === choice)?.label ?? choice);
-
 /**
- * Wires the header toggle. @nish/ui's mountThemeToggle does the work (icons, labels,
- * cycling, cross-tab sync); the hub only adds the visible word next to the icon, which
- * the shared helper does not render. Local until @nish/ui grows a labelled variant.
+ * Wires the header toggle: @nish/ui's mountThemeToggle with showLabel renders the icons,
+ * the visible word (System, Light, Dark, or a preset's name such as "Mocha" when one was
+ * picked on another site), the labels, cycling and cross-tab sync.
  */
 export const setupTheme = (toggle: HTMLButtonElement | null): void => {
   migrateLegacyTheme();
   initTheme();
-  if (!toggle) return;
-  mountThemeToggle(toggle);
-  const word = document.createElement('span');
-  word.setAttribute('aria-hidden', 'true');
-  toggle.append(word);
-  const sync = (choice: ThemeChoice): void => {
-    word.textContent = wordFor(choice);
-  };
-  onThemeChange(sync);
-  sync(getThemeChoice());
+  if (toggle) mountThemeToggle(toggle, { showLabel: true });
 };
