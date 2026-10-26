@@ -6,7 +6,7 @@ import './styles/header.css';
 import './styles/tiles.css';
 import './styles/footer.css';
 
-import { showToast } from '@nish/ui/theme';
+import { mountTooltips, showToast } from '@nish/ui/theme';
 
 import { links, profile, tailnetNote, tiles } from './config';
 import { probeAll } from './probe';
@@ -29,6 +29,9 @@ app.innerHTML = `
 
 // Theme toggle -----------------------------------------------------------------
 setupTheme(app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]'));
+
+// The Tailnet badges' tips show on hover and focus in CSS; this adds Escape to hide one.
+mountTooltips(app);
 
 // Tiles the probe found unreachable: explain instead of navigating into a timeout.
 // Tiles that could not be probed (tailnet hosts in Chrome) navigate normally.

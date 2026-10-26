@@ -64,7 +64,7 @@
 }
 
 @media (hover: hover) {
-  .tile__link:hover {
+  .tile:hover .tile__link {
     transform: translateY(-3px);
     border-color: color-mix(in oklab, var(--tile-hue) 45%, var(--nish-line));
     box-shadow:
@@ -72,10 +72,10 @@
       0 0 0 1px color-mix(in oklab, var(--tile-hue) 20%, transparent),
       0 18px 50px -18px color-mix(in oklab, var(--tile-hue) calc(var(--glow-alpha) * 100%), transparent);
   }
-  .tile__link:hover::after {
+  .tile:hover .tile__link::after {
     opacity: 1;
   }
-  .tile__link:hover .tile__arrow {
+  .tile:hover .tile__link .tile__arrow {
     opacity: 1;
     transform: none;
   }
@@ -152,10 +152,10 @@
   cursor: default;
   border-style: dashed;
 }
-.tile[data-reach='soon'] .tile__link:hover {
+.tile[data-reach='soon']:hover .tile__link {
   transform: none;
 }
-.tile[data-reach='soon'] .tile__link:hover::after {
+.tile[data-reach='soon']:hover .tile__link::after {
   opacity: 0;
 }
 .tile[data-reach='soon'] .tile__arrow {
@@ -171,13 +171,38 @@
 .tile[data-reach='unreachable'] .tile__link {
   cursor: not-allowed;
 }
-.tile[data-reach='unreachable'] .tile__link:hover {
+.tile[data-reach='unreachable']:hover .tile__link {
   transform: none;
 }
-.tile[data-reach='unreachable'] .tile__link:hover::after {
+.tile[data-reach='unreachable']:hover .tile__link::after {
   opacity: 0;
 }
 .tile[data-reach='idle'] .status {
   display: none;
 }
 
+
+/* Tailnet badge: a sibling of the link (a focusable badge cannot nest in an <a>, and the
+   link's overflow:hidden would clip its tooltip), placed where it sat in .tile__top: centered
+   on the 42px icon row, left of the 18px arrow. It lifts with the tile on hover. */
+.tile__tailnet {
+  position: absolute;
+  top: calc(1px + 18px + 21px);
+  right: calc(1px + 18px + 18px + 8px);
+  z-index: 1;
+  translate: 0 -50%;
+  transition: translate var(--nish-dur-fast) var(--nish-ease-out);
+}
+.tile[data-reach='soon'] .tile__tailnet {
+  right: calc(1px + 18px);
+}
+/* The open tip paints above the tiles after this one. */
+.tile:hover,
+.tile:focus-within {
+  z-index: 2;
+}
+@media (hover: hover) {
+  .tile:not([data-reach='soon'], [data-reach='unreachable']):hover .tile__tailnet {
+    translate: 0 calc(-50% - 3px);
+  }
+}
