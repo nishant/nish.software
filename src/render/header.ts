@@ -6,7 +6,7 @@ export const renderHeader = (profile: Profile, links: Link[]): string => `
   <header class="site-header">
     <nav class="topbar" aria-label="Site">
       <a class="wordmark" href="/" aria-label="${esc(profile.name)} home">${esc(profile.name)}</a>
-      <button class="nish-theme-btn pill" type="button" data-action="toggle-theme" aria-label="Theme"></button>
+      <button class="nish-theme-btn nish-theme-btn--labelled pill" type="button" data-action="toggle-theme" aria-label="Theme"></button>
     </nav>
     <div class="hero">
       <p class="hero__tagline">${esc(profile.tagline)}</p>

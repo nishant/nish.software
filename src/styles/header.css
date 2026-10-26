@@ -40,9 +40,9 @@
   gap: 8px;
 }
 
-/* Header controls: @nish/ui buttons (.nish-btn on the links, .nish-theme-btn on the theme
-   toggle, which mountThemeToggle fills and labels; theme.ts adds the word), drawn as the hub's
-   44px see-through pills so the ambient glow reads behind them. */
+/* Header controls: @nish/ui buttons (.nish-btn on the links, .nish-theme-btn--labelled on the
+   theme toggle, which mountThemeToggle fills with its icon and word), drawn as the hub's 44px
+   see-through pills so the ambient glow reads behind them. */
 .pill {
   width: auto;
   height: var(--nish-tap-min);

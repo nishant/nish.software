@@ -6,6 +6,8 @@ import './styles/header.css';
 import './styles/tiles.css';
 import './styles/footer.css';
 
+import { showToast } from '@nish/ui/theme';
+
 import { links, profile, tailnetNote, tiles } from './config';
 import { probeAll } from './probe';
 import { renderFooter } from './render/footer';
@@ -23,7 +25,6 @@ app.innerHTML = `
     ${renderTiles(tiles, tailnetNote)}
   </main>
   ${renderFooter(profile, links)}
-  <div class="toast" role="status" aria-live="polite" hidden></div>
 `;
 
 // Theme toggle -----------------------------------------------------------------
@@ -31,15 +32,6 @@ setupTheme(app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]'))
 
 // Tiles the probe found unreachable: explain instead of navigating into a timeout.
 // Tiles that could not be probed (tailnet hosts in Chrome) navigate normally.
-const toast = app.querySelector<HTMLDivElement>('.toast')!;
-let toastTimer: number | undefined;
-const showToast = (html: string): void => {
-  toast.innerHTML = html;
-  toast.hidden = false;
-  window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => (toast.hidden = true), 6000);
-};
-
 app.addEventListener('click', (e) => {
   const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-tile-link]');
   if (!link) return;
@@ -50,9 +42,16 @@ app.addEventListener('click', (e) => {
   const why = tile?.tailnetOnly
     ? `${tailnetNote}. If you are on it, `
     : 'It did not answer just now. You can still ';
-  showToast(
-    `<strong>${hostOf(link.href)}</strong> is not reachable from here. ${why}<a href="${link.href}">open it anyway</a>.`,
-  );
+  // @nish/ui's showToast: one polite region, and the timer pauses on hover and focus so
+  // a keyboard user can reach the link.
+  const host = document.createElement('strong');
+  host.textContent = hostOf(link.href);
+  const open = document.createElement('a');
+  open.href = link.href;
+  open.textContent = 'open it anyway';
+  const message = document.createDocumentFragment();
+  message.append(host, ` is not reachable from here. ${why}`, open, '.');
+  showToast(message);
 });
 
 // Reachability -------------------------------------------------------------------
