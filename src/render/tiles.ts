@@ -45,7 +45,6 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
     ${open}
       <div class="tile__top">
         <span class="tile__icon">${icon(t.icon)}</span>
-        ${t.tailnetOnly ? `<span class="nish-badge" title="${esc(tailnetNote)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span></span>` : ''}
         ${t.soon ? `<span class="nish-badge">Soon</span>` : ''}
         <span class="tile__arrow">${icon('arrow')}</span>
       </div>
@@ -59,6 +58,13 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
         </span>
       </div>
     ${close}
+    ${
+      // Outside the link: a focusable badge cannot sit inside an <a>, and the link's
+      // overflow:hidden would clip the tip. CSS places it where it sat in .tile__top.
+      t.tailnetOnly
+        ? `<span class="nish-badge nish-tooltip nish-tooltip--bottom nish-tooltip--end tile__tailnet" tabindex="0" aria-describedby="tip-tailnet-${esc(t.id)}">${icon('lock', 'icon icon--xs')}<span>Tailnet</span><span class="nish-tooltip-content" role="tooltip" id="tip-tailnet-${esc(t.id)}">${esc(tailnetNote)}</span></span>`
+        : ''
+    }
   </li>`;
 };
 
