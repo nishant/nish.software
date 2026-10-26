@@ -14,7 +14,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nish/ui": "https://codeload.github.com/nishant/ui/tar.gz/refs/tags/v0.5.3"
+    "@nish/ui": "https://codeload.github.com/nishant/ui/tar.gz/refs/tags/v0.6.0"
   },
   "devDependencies": {
     "typescript": "~6.0.2",
