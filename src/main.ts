@@ -19,19 +19,24 @@ import { hostOf } from './util';
 const app = document.querySelector<HTMLDivElement>('#app');
 if (!app) throw new Error('#app missing');
 
-app.innerHTML = `
-  ${renderHeader(profile, links)}
-  <main class="page">
-    ${renderTiles(tiles, tailnetNote)}
-  </main>
-  ${renderFooter(profile, links)}
-`;
+// vite.config.ts prerenders this markup into index.html; render here only if that did not happen.
+if (app.childElementCount === 0) {
+  app.innerHTML = `
+    ${renderHeader(profile, links)}
+    <main class="page">
+      ${renderTiles(tiles, tailnetNote)}
+    </main>
+    ${renderFooter(profile, links)}
+  `;
+}
 
 // Theme toggle -----------------------------------------------------------------
 setupTheme(app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]'));
 
 // The Tailnet badges' tips show on hover and focus in CSS; this adds Escape to hide one.
 mountTooltips(app);
+
+for (const el of app.querySelectorAll<HTMLElement>('[data-year]')) el.textContent = String(new Date().getFullYear());
 
 // Tiles the probe found unreachable: explain instead of navigating into a timeout.
 // Tiles that could not be probed (tailnet hosts in Chrome) navigate normally.
@@ -58,4 +63,26 @@ app.addEventListener('click', (e) => {
 });
 
 // Reachability -------------------------------------------------------------------
-probeAll(tiles, (tile, state) => setTileState(app, tile, state));
+const recheck = app.querySelector<HTMLButtonElement>('[data-action="recheck"]');
+let checking = false;
+const runProbes = async (): Promise<void> => {
+  if (checking) return;
+  checking = true;
+  if (recheck) {
+    recheck.disabled = true;
+    recheck.setAttribute('aria-busy', 'true');
+    recheck.textContent = 'Checking…';
+  }
+  try {
+    await probeAll(tiles, (tile, state) => setTileState(app, tile, state));
+  } finally {
+    checking = false;
+    if (recheck) {
+      recheck.disabled = false;
+      recheck.removeAttribute('aria-busy');
+      recheck.textContent = 'Recheck';
+    }
+  }
+};
+recheck?.addEventListener('click', () => void runProbes());
+void runProbes();

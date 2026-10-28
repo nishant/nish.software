@@ -7,5 +7,5 @@ export const renderFooter = (profile: Profile, links: Link[]): string => `
       ${links.map((l) => `<li><a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a></li>`).join('')}
       <li><a href="${esc(profile.resumeUrl)}" target="_blank" rel="noopener">Resume</a></li>
     </ul>
-    <p class="site-footer__copy">&copy; ${new Date().getFullYear()} ${esc(profile.fullName)}</p>
+    <p class="site-footer__copy">&copy; <span data-year>${new Date().getFullYear()}</span> ${esc(profile.fullName)}</p>
   </footer>`;
