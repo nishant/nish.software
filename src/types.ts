@@ -17,6 +17,7 @@ export type IconName =
   | 'lock'
   | 'arrow'
   | 'chevron'
+  | 'refresh'
   | 'code';
 
 export interface Profile {

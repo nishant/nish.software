@@ -274,8 +274,10 @@
     border-radius: 12px;
     align-self: center;
   }
+  /* Column 3 is as wide as the status pill below it; pin the arrow to the card's right edge. */
   .tile__arrow {
     display: block;
+    justify-self: end;
     align-self: center;
   }
   .tile__badge {

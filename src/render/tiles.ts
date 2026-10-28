@@ -5,7 +5,7 @@ import type { ReachState, Tile } from '../types';
 const STATUS_LABEL: Record<ReachState, string> = {
   idle: '',
   probing: 'Checking',
-  ok: 'Reachable',
+  ok: 'Healthy',
   unreachable: 'Not reachable from here',
   soon: '',
 };
@@ -27,7 +27,7 @@ export const renderTiles = (tiles: Tile[], tailnetNote: string): string => {
   // Soon tiles go last; Array.prototype.sort is stable, so the config order holds otherwise.
   const sorted = [...tiles].sort((a, b) => Number(!!a.soon) - Number(!!b.soon));
   const recheck = tiles.some((t) => t.probe && !t.soon)
-    ? `<button class="nish-btn nish-btn--ghost section__action" type="button" data-action="recheck">Recheck</button>`
+    ? `<button class="nish-btn nish-btn--ghost section__action" type="button" data-action="recheck">${icon('refresh')}Recheck</button>`
     : '';
   return `
   <section class="section" id="apps" aria-labelledby="apps-heading">
