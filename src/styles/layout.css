@@ -26,7 +26,12 @@
   padding: 0 12px;
   margin-right: -12px;
   font-size: var(--nish-text-sm);
+  gap: 6px;
   color: var(--nish-hi2);
+}
+.section__action .icon {
+  width: 16px;
+  height: 16px;
 }
 /* Busy: @nish/ui's .nish-btn[aria-busy] draws the spinner; this rule's color would
    otherwise outrank its transparent label. */
