@@ -47,11 +47,11 @@
     'icon name status chev'
     'icon blurb blurb chev';
   column-gap: 12px;
-  row-gap: 2px;
+  row-gap: 0;
   align-items: center;
   height: 100%;
   min-height: 72px;
-  padding: 14px 16px;
+  padding: 10px 16px;
   overflow: hidden;
   background: linear-gradient(90deg, color-mix(in oklab, var(--tile-hue) 6%, transparent), transparent 45%);
   transition:
@@ -161,8 +161,8 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   margin: 0;
-  font-size: var(--nish-text-sm);
-  line-height: 1.4;
+  font-size: var(--nish-text-xs);
+  line-height: 1.35;
   color: var(--nish-hi2);
 }
 
@@ -210,7 +210,7 @@
    of the name row, left of the chevron; its ::after widens the hit area to 44x44. */
 .tile__tailnet {
   position: absolute;
-  top: calc(1px + 14px + 11px);
+  top: calc(1px + 10px + 11px);
   right: calc(16px + 18px + 8px);
   z-index: 1;
   translate: 0 -50%;
@@ -355,7 +355,7 @@
 
 @media (min-width: 600px) and (hover: hover) {
   .tile:not([data-reach='soon'], [data-reach='unreachable']) .tile__link:hover {
-    background-color: transparent;
+    background-color: var(--hub-surface);
   }
   .tile:hover .tile__link {
     transform: translateY(-3px);
