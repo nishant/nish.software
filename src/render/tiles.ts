@@ -45,10 +45,11 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
   const state = initialState(t);
   // A tile that is not live yet is not a link; everything else navigates.
   const open = t.soon
-    ? `<div class="tile__link" data-tile-link aria-disabled="true">`
-    : `<a class="tile__link" href="${esc(t.href)}" data-tile-link>`;
+    ? `<div class="nish-link-card tile__link" data-tile-link aria-disabled="true">`
+    : `<a class="nish-link-card tile__link" href="${esc(t.href)}" data-tile-link>`;
   const close = t.soon ? '</div>' : '</a>';
-  // One flat grid: tiles.css lays the same children out as a phone row or as a card.
+  // One flat grid on @nish/ui's .nish-link-card: tiles.css lays the same children out as a phone
+  // row or as a card.
   const live = t.soon
     ? `<span class="nish-badge tile__badge">Soon</span>`
     : `<span class="tile__arrow">${icon('arrow')}</span>`;
@@ -62,12 +63,12 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
   return `
   <li class="tile" data-tile="${esc(t.id)}" data-accent="${t.accent}" data-reach="${state}" ${t.tailnetOnly ? 'data-tailnet' : ''} style="--i:${i}">
     ${open}
-      <span class="tile__icon">${icon(t.icon)}</span>
+      <span class="nish-link-card-icon tile__icon" aria-hidden="true">${icon(t.icon)}</span>
       ${live}
-      <h3 class="tile__name">${esc(t.name)}</h3>
+      <h3 class="nish-link-card-title tile__name">${esc(t.name)}</h3>
       ${status}
-      <p class="tile__blurb">${esc(t.blurb)}</p>
-      <span class="tile__host">${esc(hostOf(t.href))}</span>
+      <p class="nish-link-card-blurb tile__blurb">${esc(t.blurb)}</p>
+      <span class="nish-link-card-meta tile__host">${esc(hostOf(t.href))}</span>
       ${chevron}
     ${close}
     ${
