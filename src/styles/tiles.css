@@ -1,16 +1,19 @@
-/* Each tile carries data-accent="<hue>"; map it to the @nish/ui hue and its soft tint so the
-   rules below never care which one it is. */
-[data-accent='emerald'] { --tile-hue: var(--nish-emerald); --tile-hue-soft: var(--nish-emerald-soft); }
-[data-accent='indigo'] { --tile-hue: var(--nish-indigo); --tile-hue-soft: var(--nish-indigo-soft); }
-[data-accent='amber'] { --tile-hue: var(--nish-amber); --tile-hue-soft: var(--nish-amber-soft); }
-[data-accent='lime'] { --tile-hue: var(--nish-lime); --tile-hue-soft: var(--nish-lime-soft); }
-[data-accent='rose'] { --tile-hue: var(--nish-rose); --tile-hue-soft: var(--nish-rose-soft); }
-[data-accent='sky'] { --tile-hue: var(--nish-sky); --tile-hue-soft: var(--nish-sky-soft); }
-[data-accent='violet'] { --tile-hue: var(--nish-violet); --tile-hue-soft: var(--nish-violet-soft); }
-[data-accent='teal'] { --tile-hue: var(--nish-teal); --tile-hue-soft: var(--nish-teal-soft); }
+/* Each tile carries data-accent="<hue>"; map it to the @nish/ui hue; .tile__link passes it to the
+   link card as --nish-card-accent. */
+[data-accent='emerald'] { --tile-hue: var(--nish-emerald); }
+[data-accent='indigo'] { --tile-hue: var(--nish-indigo); }
+[data-accent='amber'] { --tile-hue: var(--nish-amber); }
+[data-accent='lime'] { --tile-hue: var(--nish-lime); }
+[data-accent='rose'] { --tile-hue: var(--nish-rose); }
+[data-accent='sky'] { --tile-hue: var(--nish-sky); }
+[data-accent='violet'] { --tile-hue: var(--nish-violet); }
+[data-accent='teal'] { --tile-hue: var(--nish-teal); }
 
 /* Mobile first. The base rules are the phone row layout (under 600px): one opaque list card
-   of 72px rows. From 600px the same flat markup becomes cards (2 columns, 3 from 1024px). */
+   of 72px rows. From 600px the same flat markup becomes cards (2 columns, 3 from 1024px).
+   Each link is @nish/ui's .nish-link-card (zero-specificity rules): it supplies the grid, the
+   icon fill and color, the title and blurb type, the card border and shadow, and the dashed
+   soon card; this file only sets the hub's two layouts on top. */
 .tiles {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -25,30 +28,13 @@
   position: relative;
   transition: opacity var(--nish-dur-med) var(--nish-ease-out), filter var(--nish-dur-med) var(--nish-ease-out);
 }
-.tile + .tile {
-  border-top: 1px solid var(--nish-line);
-}
-.tile:first-child,
-.tile:first-child .tile__link {
-  border-top-left-radius: calc(var(--nish-radius-lg) - 1px);
-  border-top-right-radius: calc(var(--nish-radius-lg) - 1px);
-}
-.tile:last-child,
-.tile:last-child .tile__link {
-  border-bottom-left-radius: calc(var(--nish-radius-lg) - 1px);
-  border-bottom-right-radius: calc(var(--nish-radius-lg) - 1px);
-}
-
 .tile__link {
-  position: relative;
-  display: grid;
+  --nish-card-accent: var(--tile-hue);
   grid-template-columns: 40px minmax(0, max-content) 1fr auto;
   grid-template-areas:
     'icon name status chev'
     'icon blurb blurb chev';
-  column-gap: 12px;
   row-gap: 0;
-  align-items: center;
   height: 100%;
   min-height: 72px;
   padding: 10px 16px;
@@ -85,15 +71,31 @@
   transform: translateY(0) scale(0.995);
 }
 
+/* Rows only: the list card (.tiles) is the card, so each link drops the link card's own
+   border, radius, shadow and hover lift. From 600px the DS card chrome applies as is. */
+@media (max-width: 599.98px) {
+  .tile__link {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .tile + .tile {
+    border-top: 1px solid var(--nish-line);
+  }
+  .tile:first-child,
+  .tile:first-child .tile__link {
+    border-top-left-radius: calc(var(--nish-radius-lg) - 1px);
+    border-top-right-radius: calc(var(--nish-radius-lg) - 1px);
+  }
+  .tile:last-child,
+  .tile:last-child .tile__link {
+    border-bottom-left-radius: calc(var(--nish-radius-lg) - 1px);
+    border-bottom-right-radius: calc(var(--nish-radius-lg) - 1px);
+  }
+}
+
 .tile__icon {
-  grid-area: icon;
-  width: 40px;
-  height: 40px;
   border-radius: 11px;
-  display: grid;
-  place-items: center;
-  color: var(--tile-hue);
-  background: var(--tile-hue-soft);
   border: 1px solid color-mix(in oklab, var(--tile-hue) 28%, transparent);
 }
 
@@ -127,9 +129,6 @@
 
 .tile__name {
   grid-area: name;
-  margin: 0;
-  font-size: var(--nish-text-base);
-  font-weight: var(--nish-weight-semibold);
   letter-spacing: var(--nish-tracking-tight);
   white-space: nowrap;
   overflow: hidden;
@@ -156,10 +155,8 @@
 
 .tile__blurb {
   grid-area: blurb;
-  display: -webkit-box;
   -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  line-clamp: 2;
   margin: 0;
   font-size: var(--nish-text-xs);
   line-height: 1.35;
@@ -169,27 +166,27 @@
 .tile__host {
   grid-area: host;
   display: none;
+  margin-top: 0;
   font-family: var(--nish-font-mono);
-  font-size: var(--nish-text-xs);
-  color: var(--nish-hi3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 /* Row hover: a flat tint, no lift or glow. */
-@media (hover: hover) {
+@media (max-width: 599.98px) and (hover: hover) {
   .tile:not([data-reach='soon'], [data-reach='unreachable']) .tile__link:hover {
     background-color: var(--nish-elevated);
+  }
+  .tile__link:hover:not(:active) {
+    transform: none;
+    box-shadow: none;
   }
 }
 
 /* Reach states ------------------------------------------------------------------- */
 .tile[data-reach='soon'] {
   opacity: 0.6;
-}
-.tile[data-reach='soon'] .tile__link {
-  cursor: default;
 }
 .tile[data-reach='ok'] .status {
   color: var(--nish-hi2);
@@ -245,15 +242,6 @@
   .tile {
     border-radius: var(--nish-radius-lg);
   }
-  .tile + .tile {
-    border-top: 0;
-  }
-  .tile:first-child,
-  .tile:first-child .tile__link,
-  .tile:last-child,
-  .tile:last-child .tile__link {
-    border-radius: var(--nish-radius-lg);
-  }
   .tile:last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
@@ -271,12 +259,10 @@
     align-items: stretch;
     min-height: 188px;
     padding: 18px 18px 16px;
-    border: 1px solid var(--nish-line);
     border-radius: inherit;
     background:
       linear-gradient(180deg, color-mix(in oklab, var(--tile-hue) 7%, transparent), transparent 55%),
       var(--hub-surface);
-    box-shadow: var(--nish-shadow-card);
   }
   .tile__link::after {
     display: block;
@@ -306,6 +292,7 @@
     align-self: start;
     display: block;
     -webkit-line-clamp: unset;
+    line-clamp: unset;
     font-size: var(--nish-text-sm);
     line-height: 1.45;
   }
@@ -330,11 +317,6 @@
     display: none;
   }
 
-  /* Soon cards keep a dashed border. */
-  .tile[data-reach='soon'] .tile__link {
-    border-style: dashed;
-  }
-
   /* Tailnet badge: where it sat in the old top row, centered on the 42px icon row, left of
      the 18px arrow. It lifts with the card on hover. */
   .tile__tailnet {
@@ -354,9 +336,6 @@
 }
 
 @media (min-width: 600px) and (hover: hover) {
-  .tile:not([data-reach='soon'], [data-reach='unreachable']) .tile__link:hover {
-    background-color: var(--hub-surface);
-  }
   .tile:hover .tile__link {
     transform: translateY(-3px);
     border-color: color-mix(in oklab, var(--tile-hue) 45%, var(--nish-line));
@@ -375,6 +354,10 @@
   .tile[data-reach='soon']:hover .tile__link,
   .tile[data-reach='unreachable']:hover .tile__link {
     transform: none;
+  }
+  .tile[data-reach='soon']:hover .tile__link {
+    box-shadow: none;
+    border-color: var(--nish-line);
   }
   .tile[data-reach='soon']:hover .tile__link::after,
   .tile[data-reach='unreachable']:hover .tile__link::after {

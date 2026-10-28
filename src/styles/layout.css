@@ -28,9 +28,10 @@
   font-size: var(--nish-text-sm);
   color: var(--nish-hi2);
 }
+/* Busy: @nish/ui's .nish-btn[aria-busy] draws the spinner; this rule's color would
+   otherwise outrank its transparent label. */
 .section__action[aria-busy='true'] {
-  cursor: progress;
-  opacity: 0.7;
+  color: transparent;
 }
 
 .section__title {

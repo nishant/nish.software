@@ -65,23 +65,17 @@ app.addEventListener('click', (e) => {
 // Reachability -------------------------------------------------------------------
 const recheck = app.querySelector<HTMLButtonElement>('[data-action="recheck"]');
 let checking = false;
+// @nish/ui's busy .nish-btn hides the label and shows a spinner in its place, and ignores
+// pointer clicks; `checking` also ignores keyboard presses while a round runs.
 const runProbes = async (): Promise<void> => {
   if (checking) return;
   checking = true;
-  if (recheck) {
-    recheck.disabled = true;
-    recheck.setAttribute('aria-busy', 'true');
-    recheck.textContent = 'Checking…';
-  }
+  recheck?.setAttribute('aria-busy', 'true');
   try {
     await probeAll(tiles, (tile, state) => setTileState(app, tile, state));
   } finally {
     checking = false;
-    if (recheck) {
-      recheck.disabled = false;
-      recheck.removeAttribute('aria-busy');
-      recheck.textContent = 'Recheck';
-    }
+    recheck?.removeAttribute('aria-busy');
   }
 };
 recheck?.addEventListener('click', () => void runProbes());
