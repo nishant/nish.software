@@ -355,6 +355,10 @@
   .tile[data-reach='unreachable']:hover .tile__link {
     transform: none;
   }
+  .tile[data-reach='soon']:hover .tile__link {
+    box-shadow: none;
+    border-color: var(--nish-line);
+  }
   .tile[data-reach='soon']:hover .tile__link::after,
   .tile[data-reach='unreachable']:hover .tile__link::after {
     opacity: 0;
