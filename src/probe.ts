@@ -41,19 +41,20 @@ const canProbeTailnet = async (): Promise<boolean> => {
   }
 };
 
-/** Probes every tile that asks for it, reporting each result as it lands. */
-export const probeAll = (tiles: Tile[], onResult: (tile: Tile, state: ReachState) => void): void => {
+/** Probes every tile that asks for it, reporting each result as it lands; resolves when all are in. */
+export const probeAll = async (tiles: Tile[], onResult: (tile: Tile, state: ReachState) => void): Promise<void> => {
   const tailnetAllowed = canProbeTailnet();
-  for (const tile of tiles) {
-    if (!tile.probe || tile.soon) continue;
-    void (async () => {
-      if (tile.tailnetOnly && !(await tailnetAllowed)) {
-        // Unknown from here: no dot, no claim. The lock badge already says tailnet.
-        onResult(tile, 'idle');
-        return;
-      }
-      onResult(tile, 'probing');
-      onResult(tile, await probe(tile.href));
-    })();
-  }
+  await Promise.all(
+    tiles
+      .filter((tile) => tile.probe && !tile.soon)
+      .map(async (tile) => {
+        if (tile.tailnetOnly && !(await tailnetAllowed)) {
+          // Unknown from here: no dot, no claim. The lock badge already says tailnet.
+          onResult(tile, 'idle');
+          return;
+        }
+        onResult(tile, 'probing');
+        onResult(tile, await probe(tile.href));
+      }),
+  );
 };

@@ -9,33 +9,51 @@
 [data-accent='violet'] { --tile-hue: var(--nish-violet); --tile-hue-soft: var(--nish-violet-soft); }
 [data-accent='teal'] { --tile-hue: var(--nish-teal); --tile-hue-soft: var(--nish-teal-soft); }
 
+/* Mobile first. The base rules are the phone row layout (under 600px): one opaque list card
+   of 72px rows. From 600px the same flat markup becomes cards (2 columns, 3 from 1024px). */
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border: 1px solid var(--nish-line);
+  border-radius: var(--nish-radius-lg);
+  background: var(--nish-surface);
+  box-shadow: var(--nish-shadow-card);
 }
 
 .tile {
   position: relative;
-  border-radius: var(--nish-radius-lg);
   transition: opacity var(--nish-dur-med) var(--nish-ease-out), filter var(--nish-dur-med) var(--nish-ease-out);
+}
+.tile + .tile {
+  border-top: 1px solid var(--nish-line);
+}
+.tile:first-child,
+.tile:first-child .tile__link {
+  border-top-left-radius: calc(var(--nish-radius-lg) - 1px);
+  border-top-right-radius: calc(var(--nish-radius-lg) - 1px);
+}
+.tile:last-child,
+.tile:last-child .tile__link {
+  border-bottom-left-radius: calc(var(--nish-radius-lg) - 1px);
+  border-bottom-right-radius: calc(var(--nish-radius-lg) - 1px);
 }
 
 .tile__link {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, max-content) 1fr auto;
+  grid-template-areas:
+    'icon name status chev'
+    'icon blurb blurb chev';
+  column-gap: 12px;
+  row-gap: 0;
+  align-items: center;
   height: 100%;
-  min-height: 188px;
-  padding: 18px 18px 16px;
-  border-radius: inherit;
-  border: 1px solid var(--nish-line);
-  background:
-    linear-gradient(180deg, color-mix(in oklab, var(--tile-hue) 7%, transparent), transparent 55%),
-    var(--hub-surface);
-  box-shadow: var(--nish-shadow-card);
+  min-height: 72px;
+  padding: 10px 16px;
   overflow: hidden;
+  background: linear-gradient(90deg, color-mix(in oklab, var(--tile-hue) 6%, transparent), transparent 45%);
   transition:
     transform var(--nish-dur-fast) var(--nish-ease-out),
     border-color var(--nish-dur-fast),
@@ -51,9 +69,10 @@
   background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--tile-hue) 80%, transparent), transparent);
   opacity: 0.7;
 }
-/* Accent glow that grows on hover. */
+/* Accent glow that grows on hover (cards only). */
 .tile__link::after {
   content: '';
+  display: none;
   position: absolute;
   inset: -40% -20% auto -20%;
   height: 90%;
@@ -62,8 +81,282 @@
   transition: opacity var(--nish-dur-med) var(--nish-ease-out);
   pointer-events: none;
 }
+.tile__link:active {
+  transform: translateY(0) scale(0.995);
+}
 
+.tile__icon {
+  grid-area: icon;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: var(--tile-hue);
+  background: var(--tile-hue-soft);
+  border: 1px solid color-mix(in oklab, var(--tile-hue) 28%, transparent);
+}
+
+.tile__arrow {
+  grid-area: arrow;
+  display: none;
+  color: var(--nish-hi3);
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity var(--nish-dur-fast), transform var(--nish-dur-fast) var(--nish-ease-out);
+}
+.tile__arrow .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.tile__chevron {
+  grid-area: chev;
+  display: grid;
+  color: var(--nish-hi3);
+}
+.tile__chevron .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.tile__badge {
+  grid-area: status;
+  justify-self: start;
+}
+
+.tile__name {
+  grid-area: name;
+  margin: 0;
+  font-size: var(--nish-text-base);
+  font-weight: var(--nish-weight-semibold);
+  letter-spacing: var(--nish-tracking-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Rows show only the status dot; the label stays for screen readers. */
+.status {
+  grid-area: status;
+  justify-self: start;
+}
+.status__label,
+.tile__tailnet-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tile__blurb {
+  grid-area: blurb;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-size: var(--nish-text-xs);
+  line-height: 1.35;
+  color: var(--nish-hi2);
+}
+
+.tile__host {
+  grid-area: host;
+  display: none;
+  font-family: var(--nish-font-mono);
+  font-size: var(--nish-text-xs);
+  color: var(--nish-hi3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Row hover: a flat tint, no lift or glow. */
 @media (hover: hover) {
+  .tile:not([data-reach='soon'], [data-reach='unreachable']) .tile__link:hover {
+    background-color: var(--nish-elevated);
+  }
+}
+
+/* Reach states ------------------------------------------------------------------- */
+.tile[data-reach='soon'] {
+  opacity: 0.6;
+}
+.tile[data-reach='soon'] .tile__link {
+  cursor: default;
+}
+.tile[data-reach='ok'] .status {
+  color: var(--nish-hi2);
+}
+.tile[data-reach='unreachable'] {
+  opacity: 0.55;
+  filter: saturate(0.25);
+}
+.tile[data-reach='unreachable'] .tile__link {
+  cursor: not-allowed;
+}
+.tile[data-reach='idle'] .status {
+  display: none;
+}
+
+/* Tailnet badge: a sibling of the link (a focusable badge cannot nest in an <a>, and the
+   link's overflow:hidden would clip its tooltip). In rows it is a lock glyph at the right end
+   of the name row, left of the chevron; its ::after widens the hit area to 44x44. */
+.tile__tailnet {
+  position: absolute;
+  top: calc(1px + 10px + 11px);
+  right: calc(16px + 18px + 8px);
+  z-index: 1;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  transition: translate var(--nish-dur-fast) var(--nish-ease-out);
+}
+.tile__tailnet::after {
+  content: '';
+  position: absolute;
+  inset: -11px;
+}
+/* The open tip paints above the tiles after this one. */
+.tile:hover,
+.tile:focus-within {
+  z-index: 2;
+}
+
+/* Cards: 600px and up ------------------------------------------------------------- */
+@media (min-width: 600px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .tile {
+    border-radius: var(--nish-radius-lg);
+  }
+  .tile + .tile {
+    border-top: 0;
+  }
+  .tile:first-child,
+  .tile:first-child .tile__link,
+  .tile:last-child,
+  .tile:last-child .tile__link {
+    border-radius: var(--nish-radius-lg);
+  }
+  .tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .tile__link {
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      'icon badge arrow'
+      'name name name'
+      'blurb blurb blurb'
+      'host host status';
+    column-gap: 8px;
+    row-gap: 10px;
+    align-items: stretch;
+    min-height: 188px;
+    padding: 18px 18px 16px;
+    border: 1px solid var(--nish-line);
+    border-radius: inherit;
+    background:
+      linear-gradient(180deg, color-mix(in oklab, var(--tile-hue) 7%, transparent), transparent 55%),
+      var(--hub-surface);
+    box-shadow: var(--nish-shadow-card);
+  }
+  .tile__link::after {
+    display: block;
+  }
+
+  .tile__icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    align-self: center;
+  }
+  .tile__arrow {
+    display: block;
+    align-self: center;
+  }
+  .tile__badge {
+    grid-area: badge;
+    justify-self: end;
+    align-self: center;
+  }
+  .tile__name {
+    margin-top: 4px;
+    font-size: var(--nish-text-lg);
+    white-space: normal;
+  }
+  .tile__blurb {
+    align-self: start;
+    display: block;
+    -webkit-line-clamp: unset;
+    font-size: var(--nish-text-sm);
+    line-height: 1.45;
+  }
+  .tile__host {
+    display: block;
+    align-self: center;
+  }
+  .status {
+    justify-self: end;
+    align-self: center;
+  }
+  .status__label,
+  .tile__tailnet-text {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+  .tile__chevron {
+    display: none;
+  }
+
+  /* Soon cards keep a dashed border. */
+  .tile[data-reach='soon'] .tile__link {
+    border-style: dashed;
+  }
+
+  /* Tailnet badge: where it sat in the old top row, centered on the 42px icon row, left of
+     the 18px arrow. It lifts with the card on hover. */
+  .tile__tailnet {
+    top: calc(1px + 18px + 21px);
+    right: calc(1px + 18px + 18px + 8px);
+    display: inline-flex;
+    width: auto;
+    height: auto;
+    padding: 2px 8px;
+  }
+  .tile__tailnet::after {
+    inset: -11px -4px;
+  }
+  .tile[data-reach='soon'] .tile__tailnet {
+    right: calc(1px + 18px);
+  }
+}
+
+@media (min-width: 600px) and (hover: hover) {
+  .tile:not([data-reach='soon'], [data-reach='unreachable']) .tile__link:hover {
+    background-color: var(--hub-surface);
+  }
   .tile:hover .tile__link {
     transform: translateY(-3px);
     border-color: color-mix(in oklab, var(--tile-hue) 45%, var(--nish-line));
@@ -79,130 +372,27 @@
     opacity: 1;
     transform: none;
   }
-}
-.tile__link:active {
-  transform: translateY(0) scale(0.995);
-}
-
-.tile__top {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.tile__icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  color: var(--tile-hue);
-  background: var(--tile-hue-soft);
-  border: 1px solid color-mix(in oklab, var(--tile-hue) 28%, transparent);
-  margin-right: auto;
-}
-
-.tile__arrow {
-  color: var(--nish-hi3);
-  opacity: 0;
-  transform: translate(-4px, 4px);
-  transition: opacity var(--nish-dur-fast), transform var(--nish-dur-fast) var(--nish-ease-out);
-}
-.tile__arrow .icon {
-  width: 18px;
-  height: 18px;
-}
-
-.tile__name {
-  font-size: var(--nish-text-lg);
-  font-weight: var(--nish-weight-semibold);
-  letter-spacing: var(--nish-tracking-tight);
-  margin-top: 4px;
-}
-
-.tile__blurb {
-  font-size: var(--nish-text-sm);
-  line-height: 1.45;
-  color: var(--nish-hi2);
-  flex: 1;
-}
-
-.tile__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.tile__host {
-  font-family: var(--nish-font-mono);
-  font-size: var(--nish-text-xs);
-  color: var(--nish-hi3);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Reach states ------------------------------------------------------------------- */
-.tile[data-reach='soon'] {
-  opacity: 0.6;
-}
-.tile[data-reach='soon'] .tile__link {
-  cursor: default;
-  border-style: dashed;
-}
-.tile[data-reach='soon']:hover .tile__link {
-  transform: none;
-}
-.tile[data-reach='soon']:hover .tile__link::after {
-  opacity: 0;
-}
-.tile[data-reach='soon'] .tile__arrow {
-  display: none;
-}
-.tile[data-reach='ok'] .status {
-  color: var(--nish-hi2);
-}
-.tile[data-reach='unreachable'] {
-  opacity: 0.55;
-  filter: saturate(0.25);
-}
-.tile[data-reach='unreachable'] .tile__link {
-  cursor: not-allowed;
-}
-.tile[data-reach='unreachable']:hover .tile__link {
-  transform: none;
-}
-.tile[data-reach='unreachable']:hover .tile__link::after {
-  opacity: 0;
-}
-.tile[data-reach='idle'] .status {
-  display: none;
-}
-
-
-/* Tailnet badge: a sibling of the link (a focusable badge cannot nest in an <a>, and the
-   link's overflow:hidden would clip its tooltip), placed where it sat in .tile__top: centered
-   on the 42px icon row, left of the 18px arrow. It lifts with the tile on hover. */
-.tile__tailnet {
-  position: absolute;
-  top: calc(1px + 18px + 21px);
-  right: calc(1px + 18px + 18px + 8px);
-  z-index: 1;
-  translate: 0 -50%;
-  transition: translate var(--nish-dur-fast) var(--nish-ease-out);
-}
-.tile[data-reach='soon'] .tile__tailnet {
-  right: calc(1px + 18px);
-}
-/* The open tip paints above the tiles after this one. */
-.tile:hover,
-.tile:focus-within {
-  z-index: 2;
-}
-@media (hover: hover) {
+  .tile[data-reach='soon']:hover .tile__link,
+  .tile[data-reach='unreachable']:hover .tile__link {
+    transform: none;
+  }
+  .tile[data-reach='soon']:hover .tile__link::after,
+  .tile[data-reach='unreachable']:hover .tile__link::after {
+    opacity: 0;
+  }
   .tile:not([data-reach='soon'], [data-reach='unreachable']):hover .tile__tailnet {
     translate: 0 calc(-50% - 3px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .tile:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+  .tile:last-child:nth-child(3n + 1) {
+    grid-column: 1 / -1;
   }
 }

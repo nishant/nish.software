@@ -2,6 +2,11 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { defineConfig, type Plugin } from 'vite';
 
+import { links, profile, tailnetNote, tiles } from './src/config';
+import { renderFooter } from './src/render/footer';
+import { renderHeader } from './src/render/header';
+import { renderTiles } from './src/render/tiles';
+
 const require = createRequire(import.meta.url);
 
 /**
@@ -34,6 +39,24 @@ const nishThemeInit = (): Plugin => ({
   },
 });
 
+const APP_MARKER = '<div id="app"></div>';
+
+/**
+ * Renders the page from src/config.ts at build time (and in dev), so the first paint is the
+ * page; src/main.ts only wires behavior. Vite restarts the dev server when these imports change.
+ */
+const hubPrerender = (): Plugin => ({
+  name: 'hub-prerender',
+  transformIndexHtml: {
+    order: 'pre',
+    handler: (html) => {
+      if (!html.includes(APP_MARKER)) throw new Error(`index.html is missing ${APP_MARKER}`);
+      const page = `<div id="app">${renderHeader(profile, links)}<main class="page">${renderTiles(tiles, tailnetNote)}</main>${renderFooter(profile, links)}</div>`;
+      return html.replace(APP_MARKER, () => page);
+    },
+  },
+});
+
 export default defineConfig({
-  plugins: [nishThemeInit()],
+  plugins: [nishThemeInit(), hubPrerender()],
 });

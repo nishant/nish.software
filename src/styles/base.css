@@ -19,8 +19,12 @@
 /* @nish/ui's base already sets the background, text color, font and smoothing on <html>;
    body stays transparent so the ambient glows below (fixed, behind body) show through. */
 html {
-  scroll-behavior: smooth;
   transition: background-color var(--nish-dur-med) var(--nish-ease-out);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {

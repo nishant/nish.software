@@ -10,12 +10,14 @@ light or dark, one choice shared across subdomains.
 |---|---|
 | `src/config.ts` | **Everything on the page.** Tiles, links, tagline. Edit this to change content. |
 | `src/types.ts` | The shapes `config.ts` must follow. |
-| `src/probe.ts` | On load, pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. Tailnet-only apps carry a lock badge and are pinged only when the browser allows it without a prompt (Chrome gates 100.x addresses behind a "local network access" permission); otherwise they show no dot and simply open on click. |
+| `src/probe.ts` | On load, pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. Tailnet-only apps carry a lock badge and are pinged only when the browser allows it without a prompt (Chrome gates 100.x addresses behind a "local network access" permission); otherwise they show no dot and simply open on click. The Recheck button in the Apps header runs it again. |
 | `src/theme.ts` | Mounts the header toggle (system → light → dark) with `@nish/ui/theme`'s `mountThemeToggle`, and adds the word next to its icon. The choice is saved in the shared `nish-theme` cookie on `.nish.software` and in localStorage. Also moves a choice saved under the hub's old `theme` key over once. |
-| `vite.config.ts` | Inlines `@nish/ui`'s `theme-init.js` into `index.html` at the `<!-- nish-theme-init -->` marker, so the theme is applied before first paint with no extra request. The hub only offers dark and light (`data-nish-themes="dark light"`); a preset picked elsewhere shows as its light or dark base. |
-| `src/render/*.ts` | Header, tiles, footer as HTML strings. |
+| `vite.config.ts` | Inlines `@nish/ui`'s `theme-init.js` into `index.html` at the `<!-- nish-theme-init -->` marker, so the theme is applied before first paint with no extra request. The hub only offers dark and light (`data-nish-themes="dark light"`); a preset picked elsewhere shows as its light or dark base. It also prerenders the header, tiles and footer from `src/config.ts` into `#app` (`hubPrerender`), so the first paint is the full page. |
+| `src/render/*.ts` | Header, tiles, footer as HTML strings. Rendered at build time by `vite.config.ts`; `main.ts` only wires behavior. |
 | `src/styles/*.css` | One file per part of the page, on the `--nish-*` roles from `@nish/ui/nish.css` used directly (never hex values) plus the static component classes from `@nish/ui/nish-components.css` (`nish-btn`, `nish-badge`, `nish-dot`, `nish-theme-btn`, `nish-tooltip` on the Tailnet badges). The few hub-only values (`--hub-surface`, the glow and grain alphas) sit at the top of `base.css`; `tiles.css` maps each tile's `data-accent` to `--tile-hue` / `--tile-hue-soft`. |
 | `public/resume.pdf` | The resume the Resume button opens (`profile.resumeUrl` in config). |
+| `public/site.webmanifest` | Web app manifest (name, colors, icons) so the hub installs to a home screen with its icon. |
+| `scripts/make-icons.mjs` | Regenerates `public/apple-touch-icon.png`, the manifest icons and `og-image.png` from the favicon artwork (one-off, uses Playwright from `C:\Code\ui\node_modules`): `node scripts/make-icons.mjs`. |
 | `scripts/deploy.ps1` | Run by the self-hosted runner on push to `master`: pull into `C:\Apps\nish.software`, `npm ci`, build `dist/`. |
 | `docs/HOSTING.md` | How this fits nishant/hosting, and the one-time setup steps on the PC. |
 

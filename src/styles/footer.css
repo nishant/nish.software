@@ -25,3 +25,13 @@
 .site-footer__links a:hover {
   color: var(--nish-hi);
 }
+
+/* The hero already has the three links, so the phone footer is the copyright line only. */
+@media (max-width: 599.98px) {
+  .site-footer {
+    padding-top: 20px;
+  }
+  .site-footer__links {
+    display: none;
+  }
+}

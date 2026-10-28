@@ -76,3 +76,21 @@
 .pill--accent:hover {
   background: color-mix(in srgb, var(--nish-accent) 20%, transparent);
 }
+
+@media (max-width: 599.98px) {
+  .hero {
+    padding: 28px 0 32px;
+    gap: 16px;
+  }
+}
+
+/* At 360 the three pills fit on one row (about 300px of 328); flex-wrap stays as a safety net. */
+@media (max-width: 400px) {
+  .pill {
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .hero__links {
+    gap: 6px;
+  }
+}
