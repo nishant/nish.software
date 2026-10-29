@@ -9,6 +9,7 @@ export type IconName =
   | 'trips'
   | 'monitor'
   | 'flow'
+  | 'play'
   | 'pulse'
   | 'chart'
   | 'palette'

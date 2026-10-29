@@ -113,6 +113,16 @@ export const tiles: Tile[] = [
     probe: true,
   },
   {
+    id: 'demos',
+    name: 'Demos',
+    blurb: 'Short narrated videos of every app, with sound and subtitles.',
+    href: 'https://demos.nish.software',
+    icon: 'play',
+    accent: 'indigo',
+    tailnetOnly: false,
+    probe: true,
+  },
+  {
     id: 'nishboard',
     name: 'Nishboard',
     blurb:
