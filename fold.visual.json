@@ -1,0 +1,16 @@
+{
+  "name": "hub-fold",
+  "pages": [
+    {
+      "name": "home",
+      "url": "http://127.0.0.1:{port}/",
+      "waitFor": "main",
+      "mask": [".status"]
+    }
+  ],
+  "viewports": ["phone-small", "fold", "desktop"],
+  "themes": ["light", "dark"],
+  "setTheme": "try{localStorage.setItem('nish-theme','{theme}')}catch(e){}",
+  "ignoreConsole": ["Failed to load resource", "net::ERR_", "Local Network Access", "private network"],
+  "fullPage": true
+}

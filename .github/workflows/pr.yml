@@ -1,0 +1,30 @@
+# Checks for pull requests. The `check` steps copy the check job in deploy.yml; keep them in
+# step. `fold` is the shared Fold check from nishant/ui (docs/fold-check.md there).
+name: PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+permissions: { contents: read, pull-requests: write }
+
+concurrency: { group: "pr-${{ github.event.pull_request.number }}", cancel-in-progress: true }
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+
+  fold:
+    if: startsWith(github.head_ref, 'ui/') || github.actor == 'dependabot[bot]' || contains(github.event.pull_request.labels.*.name, 'fold')
+    uses: nishant/ui/.github/workflows/fold-check.yml@master
+    with:
+      node-version: '24'
