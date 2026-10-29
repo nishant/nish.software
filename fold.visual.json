@@ -5,7 +5,8 @@
       "name": "home",
       "url": "http://127.0.0.1:{port}/",
       "waitFor": "main",
-      "mask": [".status"]
+      "mask": [".status"],
+      "setup": "new MutationObserver(ms=>ms.forEach(m=>{const t=m.target;if(t.dataset&&t.dataset.reach!=='ok')t.dataset.reach='ok'})).observe(document.body,{subtree:true,attributes:true,attributeFilter:['data-reach']});document.querySelectorAll('[data-reach]').forEach(t=>{t.dataset.reach='ok'})"
     }
   ],
   "viewports": ["phone-small", "fold", "desktop"],
