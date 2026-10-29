@@ -93,6 +93,16 @@ export const tiles: Tile[] = [
     probe: true,
   },
   {
+    id: 'workflows',
+    name: 'Workflows',
+    blurb: 'Live view of Claude sessions: what each one is doing, its plan, workflows and agents.',
+    href: 'https://workflows.nish.software',
+    icon: 'flow',
+    accent: 'indigo',
+    tailnetOnly: false,
+    probe: true,
+  },
+  {
     id: 'design',
     name: 'Design system',
     blurb: 'The shared theme and components every nish.software app is built from.',

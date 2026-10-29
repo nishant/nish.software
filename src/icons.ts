@@ -15,6 +15,7 @@ const paths: Record<IconName, string> = {
     '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
   monitor:
     '<rect x="3" y="4" width="18" height="12" rx="2.5"/><path d="M8 20h8"/><path d="M12 16v4"/><path d="M7 12.5 9.5 9l2 2.5L14 8l3 4.5" opacity=".8"/>',
+  flow: '<circle cx="5.5" cy="6" r="2.25"/><circle cx="5.5" cy="18" r="2.25"/><circle cx="18.5" cy="12" r="2.25"/><path d="M7.75 6H10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7.75"/><path d="M12 12h4.25"/>',
   pulse: '<path d="M3 12h3.5l2-5 3.5 10 2.5-7 1.5 2H21"/>',
   chart: '<path d="M4 4v16h16"/><path d="m7 9 4 4 3-3 5 6"/><circle cx="19" cy="16" r="1.2" fill="currentColor" stroke="none"/>',
   palette:

@@ -8,6 +8,7 @@ export type IconName =
   | 'minecraft'
   | 'trips'
   | 'monitor'
+  | 'flow'
   | 'pulse'
   | 'chart'
   | 'palette'
