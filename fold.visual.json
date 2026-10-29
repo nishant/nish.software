@@ -1,0 +1,17 @@
+{
+  "name": "hub-fold",
+  "pages": [
+    {
+      "name": "home",
+      "url": "http://127.0.0.1:{port}/",
+      "waitFor": "main",
+      "mask": [".status"],
+      "setup": "new MutationObserver(ms=>ms.forEach(m=>{const t=m.target;if(t.dataset&&t.dataset.reach!=='ok'&&t.dataset.reach!=='soon')t.dataset.reach='ok'})).observe(document.body,{subtree:true,attributes:true,attributeFilter:['data-reach']});document.querySelectorAll('.tile[data-reach]:not([data-reach=\"soon\"])').forEach(t=>{t.dataset.reach='ok'})"
+    }
+  ],
+  "viewports": ["phone-small", "fold", "desktop"],
+  "themes": ["light", "dark"],
+  "setTheme": "try{localStorage.setItem('nish-theme','{theme}')}catch(e){}",
+  "ignoreConsole": ["Failed to load resource", "net::ERR_", "Local Network Access", "private network"],
+  "fullPage": true
+}
