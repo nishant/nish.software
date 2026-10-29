@@ -55,7 +55,7 @@ export const tiles: Tile[] = [
     name: 'Minecraft',
     blurb:
       'Guides for my Bedrock realm: houses, monuments and survival farms built layer by layer in 3D, reference charts, and my own add-on packs.',
-    href: 'https://mc.nish.software',
+    href: 'https://minecraft.nish.software',
     icon: 'minecraft',
     accent: 'lime',
     tailnetOnly: false,
