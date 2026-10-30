@@ -36,6 +36,18 @@ setupTheme(app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]'))
 // The Tailnet badges' tips show on hover and focus in CSS; this adds Escape to hide one.
 mountTooltips(app);
 
+// The status tip also shows while a tile link has keyboard focus (CSS); Escape dismisses it
+// until focus leaves the link. mountTooltips only handles .nish-tooltip elements, not the <a>.
+app.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const link = document.activeElement;
+  if (!(link instanceof HTMLAnchorElement) || !link.matches('a[data-tile-link]')) return;
+  const status = link.querySelector<HTMLElement>('.status');
+  if (!status) return;
+  status.setAttribute('data-tooltip-hidden', '');
+  link.addEventListener('focusout', () => status.removeAttribute('data-tooltip-hidden'), { once: true });
+});
+
 for (const el of app.querySelectorAll<HTMLElement>('[data-year]')) el.textContent = String(new Date().getFullYear());
 
 // Tiles found unreachable or down: explain instead of navigating into a timeout.

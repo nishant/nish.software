@@ -193,7 +193,7 @@
 .tile[data-reach='down'] .status {
   color: var(--nish-hi2);
 }
-.tile[data-reach='down'] {
+.tile[data-reach='down'] :is(.tile__icon, .tile__name, .tile__blurb, .tile__host) {
   opacity: 0.7;
 }
 .tile[data-reach='unreachable'] {
@@ -340,7 +340,7 @@
   .tile__chevron {
     display: none;
   }
-  .tile__link:focus-visible .status__tip:not([hidden]) {
+  .tile__link:focus-visible .status:not([data-tooltip-hidden]) > .status__tip:not([hidden]) {
     display: block;
   }
 
