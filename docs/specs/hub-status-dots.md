@@ -32,7 +32,7 @@ three states, the 24 h uptime in a tooltip, for every tile including tailnet one
 ## Decisions
 - One fetch per round, not per tile: the response already carries every host (14 sites, ~60 KB raw,
   brotli on the wire). The tile maps by `new URL(href).host` (`hostOf` in `src/util.ts`).
-- State mapping: `up` → ok, `down` → down, `warn` | `degraded` | `slow` → degraded. Any other value
+- State mapping: `up` → ok, `down` → down, `failing` | `warn` | `degraded` | `slow` → degraded (`failing` = missed one check; confirmed with the status session). Any other value
   (`unknown`, `pending`, missing) → no entry for that host, so the tile falls back to the probe.
   status's UI uses `up`, `down` and `warn` today; the extra spellings are cheap insurance.
 - Stale guard: if `generatedAt - lastRound > 3 * intervalMin * 60000` the monitor is stuck, so the
@@ -95,7 +95,7 @@ export interface SiteHealth {
 
 `src/status.ts` (new):
 ```ts
-export const STATUS_API = 'https://status.nish.software/api/public';
+export const STATUS_API = 'https://status.nish.software/api/public?bars=0'; // ~2.3 KB instead of ~60 KB
 /** Map of host -> health, or null when status did not answer usefully. */
 export const fetchStatus = async (): Promise<Map<string, SiteHealth> | null>;
 ```

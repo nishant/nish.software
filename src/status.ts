@@ -1,12 +1,15 @@
 import type { SiteHealth } from './types';
 
-export const STATUS_API = 'https://status.nish.software/api/public';
+// bars=0 drops the 90-day history the hub does not use: ~2 KB instead of ~60 KB.
+export const STATUS_API = 'https://status.nish.software/api/public?bars=0';
 
 const TIMEOUT_MS = 3000;
 
 const STATES: Record<string, SiteHealth['state']> = {
   up: 'ok',
   down: 'down',
+  // failing = missed one check (status calls it down after two in a row).
+  failing: 'degraded',
   warn: 'degraded',
   degraded: 'degraded',
   slow: 'degraded',
