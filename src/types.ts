@@ -60,5 +60,16 @@ export interface Tile {
   soon?: boolean;
 }
 
-/** Probe outcome for a tile. `idle` = never probed (probe: false); `soon` = not live yet. */
-export type ReachState = 'idle' | 'probing' | 'ok' | 'unreachable' | 'soon';
+/** Probe outcome for a tile. `idle` = no dot (probe: false, or a tailnet host that could not be checked);
+ *  `ok` | `degraded` | `down` = what status.nish.software reports (`ok` also = the fallback probe got an answer);
+ *  `unreachable` = the fallback probe got no answer; `soon` = not live yet. */
+export type ReachState = 'idle' | 'probing' | 'ok' | 'degraded' | 'down' | 'unreachable' | 'soon';
+
+/** One host as status.nish.software reports it. */
+export interface SiteHealth {
+  state: 'ok' | 'degraded' | 'down';
+  /** Fraction 0..1 of checks that passed in the last 24 h; null when status has no data. */
+  uptime24h: number | null;
+  /** Epoch ms of the check this state comes from. */
+  checkedAt: number;
+}

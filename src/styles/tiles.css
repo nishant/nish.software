@@ -175,7 +175,7 @@
 
 /* Row hover: a flat tint, no lift or glow. */
 @media (max-width: 599.98px) and (hover: hover) {
-  .tile:not([data-reach='soon'], [data-reach='unreachable']) .tile__link:hover {
+  .tile:not([data-reach='soon'], [data-reach='unreachable'], [data-reach='down']) .tile__link:hover {
     background-color: var(--nish-elevated);
   }
   .tile__link:hover:not(:active) {
@@ -188,8 +188,13 @@
 .tile[data-reach='soon'] {
   opacity: 0.6;
 }
-.tile[data-reach='ok'] .status {
+.tile[data-reach='ok'] .status,
+.tile[data-reach='degraded'] .status,
+.tile[data-reach='down'] .status {
   color: var(--nish-hi2);
+}
+.tile[data-reach='down'] :is(.tile__icon, .tile__name, .tile__blurb, .tile__host) {
+  opacity: 0.7;
 }
 .tile[data-reach='unreachable'] {
   opacity: 0.55;
@@ -197,6 +202,23 @@
 }
 .tile[data-reach='unreachable'] .tile__link {
   cursor: not-allowed;
+}
+
+/* Status tooltip (cards only): uptime and age from status.nish.software. These class rules beat
+   @nish/ui's zero-specificity :where() show rule, so hidden and the phone rows win. */
+.status__tip[hidden] {
+  display: none;
+}
+.status__tip-line {
+  display: block;
+}
+.status__tip {
+  max-width: min(240px, 100vw - 32px);
+}
+@media (max-width: 599.98px) {
+  .status__tip {
+    display: none;
+  }
 }
 .tile[data-reach='idle'] .status {
   display: none;
@@ -318,6 +340,9 @@
   .tile__chevron {
     display: none;
   }
+  .tile__link:focus-visible .status:not([data-tooltip-hidden]) > .status__tip:not([hidden]) {
+    display: block;
+  }
 
   /* Tailnet badge: where it sat in the old top row, centered on the 42px icon row, left of
      the 18px arrow. It lifts with the card on hover. */
@@ -354,7 +379,8 @@
     transform: none;
   }
   .tile[data-reach='soon']:hover .tile__link,
-  .tile[data-reach='unreachable']:hover .tile__link {
+  .tile[data-reach='unreachable']:hover .tile__link,
+  .tile[data-reach='down']:hover .tile__link {
     transform: none;
   }
   .tile[data-reach='soon']:hover .tile__link {
@@ -362,10 +388,11 @@
     border-color: var(--nish-line);
   }
   .tile[data-reach='soon']:hover .tile__link::after,
-  .tile[data-reach='unreachable']:hover .tile__link::after {
+  .tile[data-reach='unreachable']:hover .tile__link::after,
+  .tile[data-reach='down']:hover .tile__link::after {
     opacity: 0;
   }
-  .tile:not([data-reach='soon'], [data-reach='unreachable']):hover .tile__tailnet {
+  .tile:not([data-reach='soon'], [data-reach='unreachable'], [data-reach='down']):hover .tile__tailnet {
     translate: 0 calc(-50% - 3px);
   }
 }

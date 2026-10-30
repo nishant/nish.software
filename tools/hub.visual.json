@@ -4,6 +4,6 @@
   "viewports": ["desktop", "laptop", "fold", "phone", "phone-small"],
   "themes": ["dark", "light", "mocha"],
   "setTheme": "try{localStorage.setItem('nish-theme','{theme}')}catch(e){}",
-  "ignoreConsole": ["Failed to load resource", "net::ERR_", "Local Network Access", "private network"],
+  "ignoreConsole": ["Failed to load resource", "net::ERR_", "Local Network Access", "private network", "CORS policy"],
   "fullPage": true
 }

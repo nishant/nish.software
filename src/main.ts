@@ -36,17 +36,30 @@ setupTheme(app.querySelector<HTMLButtonElement>('[data-action="toggle-theme"]'))
 // The Tailnet badges' tips show on hover and focus in CSS; this adds Escape to hide one.
 mountTooltips(app);
 
+// The status tip also shows while a tile link has keyboard focus (CSS); Escape dismisses it
+// until focus leaves the link. mountTooltips only handles .nish-tooltip elements, not the <a>.
+app.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  const link = document.activeElement;
+  if (!(link instanceof HTMLAnchorElement) || !link.matches('a[data-tile-link]')) return;
+  const status = link.querySelector<HTMLElement>('.status');
+  if (!status) return;
+  status.setAttribute('data-tooltip-hidden', '');
+  link.addEventListener('focusout', () => status.removeAttribute('data-tooltip-hidden'), { once: true });
+});
+
 for (const el of app.querySelectorAll<HTMLElement>('[data-year]')) el.textContent = String(new Date().getFullYear());
 
-// Tiles the probe found unreachable: explain instead of navigating into a timeout.
+// Tiles found unreachable or down: explain instead of navigating into a timeout.
 // Tiles that could not be probed (tailnet hosts in Chrome) navigate normally.
 app.addEventListener('click', (e) => {
   const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-tile-link]');
   if (!link) return;
   const tileEl = link.closest<HTMLElement>('.tile');
-  if (tileEl?.dataset.reach !== 'unreachable') return;
+  const reach = tileEl?.dataset.reach;
+  if (reach !== 'unreachable' && reach !== 'down') return;
   e.preventDefault();
-  const tile = tiles.find((t) => t.id === tileEl.dataset.tile);
+  const tile = tiles.find((t) => t.id === tileEl?.dataset.tile);
   const why = tile?.tailnetOnly
     ? `${tailnetNote}. If you are on it, `
     : 'It did not answer just now. You can still ';
@@ -58,7 +71,12 @@ app.addEventListener('click', (e) => {
   open.href = link.href;
   open.textContent = 'open it anyway';
   const message = document.createDocumentFragment();
-  message.append(host, ` is not reachable from here. ${why}`, open, '.');
+  message.append(
+    host,
+    reach === 'down' ? ' is down right now, per status.nish.software. You can still ' : ` is not reachable from here. ${why}`,
+    open,
+    '.',
+  );
   showToast(message);
 });
 
@@ -72,7 +90,7 @@ const runProbes = async (): Promise<void> => {
   checking = true;
   recheck?.setAttribute('aria-busy', 'true');
   try {
-    await probeAll(tiles, (tile, state) => setTileState(app, tile, state));
+    await probeAll(tiles, (tile, state, health) => setTileState(app, tile, state, health));
   } finally {
     checking = false;
     recheck?.removeAttribute('aria-busy');
