@@ -1,4 +1,6 @@
-import type { ReachState, Tile } from './types';
+import { fetchStatus } from './status';
+import type { ReachState, SiteHealth, Tile } from './types';
+import { hostOf } from './util';
 
 const TIMEOUT_MS = 4000;
 
@@ -41,20 +43,37 @@ const canProbeTailnet = async (): Promise<boolean> => {
   }
 };
 
-/** Probes every tile that asks for it, reporting each result as it lands; resolves when all are in. */
-export const probeAll = async (tiles: Tile[], onResult: (tile: Tile, state: ReachState) => void): Promise<void> => {
-  const tailnetAllowed = canProbeTailnet();
+/**
+ * Reports every tile that asks for a dot, as each result lands; resolves when all are in.
+ * One request to status.nish.software answers for every host it knows. A tile it does not
+ * cover, or all of them when status does not answer, fall back to probing from here.
+ */
+export const probeAll = async (
+  tiles: Tile[],
+  onResult: (tile: Tile, state: ReachState, health?: SiteHealth) => void,
+): Promise<void> => {
+  const live = tiles.filter((tile) => tile.probe && !tile.soon);
+  // Tailnet tiles keep what they show until their result arrives.
+  for (const tile of live) if (!tile.tailnetOnly) onResult(tile, 'probing');
+  const health = await fetchStatus();
+  let tailnetAllowed: Promise<boolean> | undefined;
   await Promise.all(
-    tiles
-      .filter((tile) => tile.probe && !tile.soon)
-      .map(async (tile) => {
-        if (tile.tailnetOnly && !(await tailnetAllowed)) {
+    live.map(async (tile) => {
+      const h = health?.get(hostOf(tile.href));
+      if (h) {
+        onResult(tile, h.state, h);
+        return;
+      }
+      if (tile.tailnetOnly) {
+        tailnetAllowed ??= canProbeTailnet();
+        if (!(await tailnetAllowed)) {
           // Unknown from here: no dot, no claim. The lock badge already says tailnet.
           onResult(tile, 'idle');
           return;
         }
         onResult(tile, 'probing');
-        onResult(tile, await probe(tile.href));
-      }),
+      }
+      onResult(tile, await probe(tile.href));
+    }),
   );
 };

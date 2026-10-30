@@ -1,11 +1,13 @@
 import { icon } from '../icons';
 import { esc, hostOf } from '../util';
-import type { ReachState, Tile } from '../types';
+import type { ReachState, SiteHealth, Tile } from '../types';
 
 const STATUS_LABEL: Record<ReachState, string> = {
   idle: '',
   probing: 'Checking',
   ok: 'Healthy',
+  degraded: 'Degraded',
+  down: 'Down',
   unreachable: 'Not reachable from here',
   soon: '',
 };
@@ -15,6 +17,8 @@ const DOT_CLASS: Record<ReachState, string> = {
   idle: 'nish-dot',
   probing: 'nish-dot nish-dot--warn nish-dot--pulse',
   ok: 'nish-dot nish-dot--ok nish-dot--halo',
+  degraded: 'nish-dot nish-dot--warn nish-dot--halo',
+  down: 'nish-dot nish-dot--loss nish-dot--halo',
   unreachable: 'nish-dot',
   soon: 'nish-dot',
 };
@@ -46,7 +50,7 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
   // A tile that is not live yet is not a link; everything else navigates.
   const open = t.soon
     ? `<div class="nish-link-card tile__link" data-tile-link aria-disabled="true">`
-    : `<a class="nish-link-card tile__link" href="${esc(t.href)}" data-tile-link>`;
+    : `<a class="nish-link-card tile__link" href="${esc(t.href)}" aria-describedby="tip-status-${esc(t.id)}" data-tile-link>`;
   const close = t.soon ? '</div>' : '</a>';
   // One flat grid on @nish/ui's .nish-link-card: tiles.css lays the same children out as a phone
   // row or as a card.
@@ -55,9 +59,12 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
     : `<span class="tile__arrow">${icon('arrow')}</span>`;
   const status = t.soon
     ? ''
-    : `<span class="status" data-status>
+    : `<span class="status nish-tooltip nish-tooltip--end" data-status>
           <span class="status__dot ${DOT_CLASS[state]}" aria-hidden="true"></span>
           <span class="status__label">${STATUS_LABEL[state]}</span>
+          <span class="nish-tooltip-content status__tip" role="tooltip" id="tip-status-${esc(t.id)}" hidden>
+            <span class="status__tip-line"></span><span class="status__tip-line"></span>
+          </span>
         </span>`;
   const chevron = t.soon ? '' : `<span class="tile__chevron" aria-hidden="true">${icon('chevron')}</span>`;
   return `
@@ -81,8 +88,25 @@ const renderTile = (t: Tile, i: number, tailnetNote: string): string => {
   </li>`;
 };
 
-/** Reflects a probe result on the tile: the data attribute drives the CSS, the label the text. */
-export const setTileState = (root: ParentNode, tile: Tile, state: ReachState): void => {
+/** `0.99961` -> `99.9% uptime in the last 24 h`: floored, so a bad day never rounds up to 100%. */
+export const formatUptime = (u: number | null): string =>
+  u === null
+    ? 'No uptime data for the last 24 h'
+    : u === 1
+      ? '100% uptime in the last 24 h'
+      : `${(Math.floor(u * 1000) / 10).toFixed(1)}% uptime in the last 24 h`;
+
+/** Minutes, or hours past an hour, since `ms`; a time in the future reads as "just now". */
+export const formatAgo = (ms: number): string => {
+  const m = Math.max(0, Math.round((Date.now() - ms) / 60000));
+  return m < 1 ? 'just now' : m < 60 ? `${m} min ago` : `${Math.round(m / 60)} h ago`;
+};
+
+/**
+ * Reflects a probe result on the tile: the data attribute drives the CSS, the label the text.
+ * With `health` (from status.nish.software) the tooltip gets the uptime and age lines.
+ */
+export const setTileState = (root: ParentNode, tile: Tile, state: ReachState, health?: SiteHealth): void => {
   const el = root.querySelector<HTMLElement>(`[data-tile="${tile.id}"]`);
   if (!el) return;
   el.dataset.reach = state;
@@ -91,5 +115,12 @@ export const setTileState = (root: ParentNode, tile: Tile, state: ReachState): v
   const label = el.querySelector<HTMLElement>('.status__label');
   if (label) {
     label.textContent = state === 'unreachable' && tile.tailnetOnly ? 'Tailnet only' : STATUS_LABEL[state];
+  }
+  const tip = el.querySelector<HTMLElement>('.status__tip');
+  if (tip) {
+    const lines = tip.querySelectorAll<HTMLElement>('.status__tip-line');
+    if (lines[0]) lines[0].textContent = health ? formatUptime(health.uptime24h) : '';
+    if (lines[1]) lines[1].textContent = health ? `Checked ${formatAgo(health.checkedAt)} by status.nish.software` : '';
+    tip.hidden = !health;
   }
 };
