@@ -17,7 +17,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@nish/ui": "https://codeload.github.com/nishant/ui/tar.gz/refs/tags/v1.0.1"
+    "@nish/ui": "https://codeload.github.com/nishant/ui/tar.gz/refs/tags/v1.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
