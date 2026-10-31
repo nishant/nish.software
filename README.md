@@ -40,8 +40,7 @@ Tiles are generated from nishant/hosting. Add the tile fields to the site in hos
 not-live-yet tile), then run in hosting:
 
 ```
-node scripts/catalog.mjs --hub C:Code
-ish.software
+node scripts/catalog.mjs --hub C:\Code\nish.software
 ```
 
 and commit the regenerated `src/tiles.generated.ts` here. Do not edit that file by hand.
