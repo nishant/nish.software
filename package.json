@@ -13,13 +13,18 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "fold:serve": "node scripts/fold-serve.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@nish/ui": "https://codeload.github.com/nishant/ui/tar.gz/refs/tags/v1.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
     "typescript": "~6.0.2",
+    "typescript-eslint": "^8.72.1",
     "vite": "^8.3.5",
     "vitest": "^4.1.12"
   }
