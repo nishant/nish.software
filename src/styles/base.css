@@ -102,20 +102,19 @@ body::after {
   height: 13px;
 }
 
-/* Entrance: things rise into place, staggered by --i. Off entirely for reduced motion. */
+/* Entrance: things rise into place, staggered by --i. There is no `to` keyframe, so the rise
+   ends at the element's own opacity and transform (a soon, down or unreachable tile's dim), and
+   fill-mode `backwards` holds only the hidden start through the stagger delay: once it ends, the
+   animation stops overriding, so later state changes apply and transition as usual. */
 @keyframes rise {
   from {
     opacity: 0;
     transform: translateY(10px);
   }
-  to {
-    opacity: 1;
-    transform: none;
-  }
 }
 .tile,
 .hero > * {
-  animation: rise 560ms var(--nish-ease-out) both;
+  animation: rise 560ms var(--nish-ease-out) backwards;
   animation-delay: calc(var(--i, 0) * 45ms + 60ms);
 }
 
