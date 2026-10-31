@@ -193,7 +193,7 @@
 .tile[data-reach='down'] .status {
   color: var(--nish-hi2);
 }
-.tile[data-reach='down'] :is(.tile__icon, .tile__name, .tile__blurb, .tile__host) {
+.tile[data-reach='down'] {
   opacity: 0.7;
 }
 .tile[data-reach='unreachable'] {
