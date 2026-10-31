@@ -29,6 +29,7 @@ light or dark, one choice shared across subdomains.
 npm ci
 npm run dev        # http://localhost:5173
 npm run typecheck
+npm run lint
 npm run build      # dist/
 npm run preview    # serves dist/ on http://localhost:4173
 ```
