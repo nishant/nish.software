@@ -8,7 +8,8 @@ light or dark, one choice shared across subdomains.
 
 | Path | What |
 |---|---|
-| `src/config.ts` | **Everything on the page.** Tiles, links, tagline. Edit this to change content. |
+| `src/config.ts` | Profile, links and the tailnet note. The tiles come from `src/tiles.generated.ts`. |
+| `src/tiles.generated.ts` | Generated from hosting's `sites.yaml`; do not edit. See "Add a tile". |
 | `src/types.ts` | The shapes `config.ts` must follow. |
 | `src/probe.ts` | The fallback when status does not answer: pings each tile's URL (`fetch` in `no-cors` mode) and dims the ones that do not answer from where the visitor is. `probeAll` first asks `src/status.ts`; a tile status covers takes its dot from there, and only the rest are pinged. Tailnet-only apps carry a lock badge and are pinged only when the browser allows it without a prompt (Chrome gates 100.x addresses behind a "local network access" permission); otherwise they show no dot and simply open on click. The Recheck button in the Apps header runs it again (it shows a spinner while it runs). |
 | `src/status.ts` | One CORS request to `status.nish.software/api/public?bars=0` (status allows only the `https://nish.software` origin; 3 s timeout, no credentials) mapping each host to Healthy, Degraded or Down plus its 24 h uptime, shown in a tooltip on cards. The JSON is untrusted and type-checked; stale data or any failure counts as "status did not answer". |
@@ -34,23 +35,17 @@ npm run preview    # serves dist/ on http://localhost:4173
 
 ## Add a tile
 
-Append to `tiles` in `src/config.ts`:
+Tiles are generated from nishant/hosting. Add the tile fields to the site in hosting's `sites.yaml`
+(`tile` is the id; then `order`, `name`, `blurb`, `icon`, `accent`, and `soon: yes` for a
+not-live-yet tile), then run in hosting:
 
-```ts
-{
-  id: 'recipes',
-  name: 'Recipes',
-  blurb: 'One sentence about it.',
-  href: 'https://recipes.nish.software',
-  icon: 'startpage',       // add a new one in src/icons.ts if none fits
-  accent: 'rose',          // emerald | indigo | amber | lime | rose | sky | violet | teal
-  tailnetOnly: false,      // true = lock badge + "only reachable on my tailnet"
-  probe: true,             // ping on load and grey out if it does not answer
-  // soon: true,           // not live yet: muted "Coming soon" tile, not a link (set probe: false)
-}
+```
+node scripts/catalog.mjs --hub C:\Code\nish.software
 ```
 
-Then add the site to nishant/hosting (`sites.yaml` + Caddyfile) so the host exists.
+and commit the regenerated `src/tiles.generated.ts` here. Do not edit that file by hand.
+`icon` must exist in `src/icons.ts` (add one if none fits) and `accent` is one of
+emerald | indigo | amber | lime | rose | sky | violet | teal; the type check fails otherwise.
 
 ## Deploy
 
